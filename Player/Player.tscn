@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://cnnl8e0e5chcs"]
+
+[ext_resource type="Script" uid="uid://celklpbsbe88" path="res://Player/Player.gd" id="1_3qydi"]
+[ext_resource type="Script" uid="uid://bypl4gfnk18rb" path="res://Player/PlayerAttack.gd" id="2_q3lat"]
+[ext_resource type="PackedScene" uid="uid://drw3g2ky0s32e" path="res://Projectiles/Projectile.tscn" id="3_tok1r"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_l2ndj"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_3qydi"]
+
+[node name="Player" type="CharacterBody2D"]
+scale = Vector2(5, 5)
+script = ExtResource("1_3qydi")
+
+[node name="Collider" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_l2ndj")
+
+[node name="Visuals" type="Node2D" parent="."]
+
+[node name="Head" type="Sprite2D" parent="Visuals"]
+position = Vector2(0, -12.26)
+scale = Vector2(8.13, 8.13)
+texture = SubResource("PlaceholderTexture2D_3qydi")
+
+[node name="Torso" type="Sprite2D" parent="Visuals"]
+scale = Vector2(17.94, 17.94)
+texture = SubResource("PlaceholderTexture2D_3qydi")
+
+[node name="RightArm" type="Sprite2D" parent="Visuals"]
+position = Vector2(-10.01, 0)
+scale = Vector2(3.5, 14.59)
+texture = SubResource("PlaceholderTexture2D_3qydi")
+script = ExtResource("2_q3lat")
+projectile_scene = ExtResource("3_tok1r")
+
+[node name="LeftArm" type="Sprite2D" parent="Visuals"]
+position = Vector2(10.01, 0)
+scale = Vector2(3.5, 14.59)
+texture = SubResource("PlaceholderTexture2D_3qydi")
+script = ExtResource("2_q3lat")
+projectile_scene = ExtResource("3_tok1r")
+
+[node name="Legs" type="Sprite2D" parent="Visuals"]
+position = Vector2(0, 16.08)
+scale = Vector2(11.97, 14.59)
+texture = SubResource("PlaceholderTexture2D_3qydi")

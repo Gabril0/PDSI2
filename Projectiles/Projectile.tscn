@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://drw3g2ky0s32e"]
+
+[ext_resource type="Script" uid="uid://bxgakwnua77iw" path="res://Projectile.gd" id="1_lgxlk"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_lgxlk"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_i710n"]
+
+[node name="Area2D" type="Area2D"]
+scale = Vector2(0.1, 0.1)
+script = ExtResource("1_lgxlk")
+range = 500.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.1, 0.1)
+texture = SubResource("NoiseTexture2D_lgxlk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(2.559, 2.559)
+shape = SubResource("CircleShape2D_i710n")
