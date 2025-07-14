@@ -1,0 +1,47 @@
+[gd_scene load_steps=8 format=3 uid="uid://cnnl8e0e5chcs"]
+
+[ext_resource type="Script" uid="uid://celklpbsbe88" path="res://Entity/Player/Player.gd" id="1_3qydi"]
+[ext_resource type="Script" uid="uid://bypl4gfnk18rb" path="res://Entity/Player/PlayerAttack.gd" id="2_q3lat"]
+[ext_resource type="PackedScene" uid="uid://drw3g2ky0s32e" path="res://Projectiles/Projectile.tscn" id="3_rj2x4"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_l2ndj"]
+
+[sub_resource type="Gradient" id="Gradient_ic0o1"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_rj2x4"]
+gradient = SubResource("Gradient_ic0o1")
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_3qydi"]
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+scale = Vector2(5, 5)
+script = ExtResource("1_3qydi")
+speed = 300.0
+friction_force = 0.1
+acceleration_force = 100.0
+
+[node name="Collider" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_l2ndj")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Visuals" type="Node2D" parent="."]
+
+[node name="Head" type="Sprite2D" parent="Visuals"]
+texture_filter = 1
+position = Vector2(0, -12.26)
+scale = Vector2(0.03, 6.14)
+texture = SubResource("GradientTexture1D_rj2x4")
+
+[node name="Torso" type="Sprite2D" parent="Visuals"]
+texture_filter = 1
+scale = Vector2(17.94, 17.94)
+texture = SubResource("PlaceholderTexture2D_3qydi")
+script = ExtResource("2_q3lat")
+projectile_scene = ExtResource("3_rj2x4")
+
+[node name="Legs" type="Sprite2D" parent="Visuals"]
+texture_filter = 1
+position = Vector2(0, 16.08)
+scale = Vector2(11.97, 14.59)
+texture = SubResource("PlaceholderTexture2D_3qydi")

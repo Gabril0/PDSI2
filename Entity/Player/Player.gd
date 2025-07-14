@@ -1,24 +1,18 @@
 class_name Player
-extends CharacterBody2D
-
-@export var speed : float = 200.0
-var direction : Vector2
-var attackDirection : Vector2
+extends Entity
 
 func _init() -> void:
+	super._init()
 	direction = Vector2.ZERO
 	attackDirection = Vector2.ZERO
 
 func _process(delta: float) -> void:
-	MovementInputCheck()
-	AttackInputCheck()
+	movement_input_check()
+	attack_input_check()
 	
-	var friction : float = velocity.length() /20
-	var acceleration : float = speed /15
-	velocity += direction * acceleration + (friction * -velocity.sign())
-	move_and_slide()
+	move(delta)
 
-func MovementInputCheck() -> void:
+func movement_input_check() -> void:
 	direction = Vector2.ZERO
 
 	if Input.is_action_pressed("Right"):
@@ -32,7 +26,7 @@ func MovementInputCheck() -> void:
 
 	direction = direction.normalized()
 
-func AttackInputCheck() -> void:
+func attack_input_check() -> void:
 	attackDirection = Vector2.ZERO
 	
 	if Input.is_action_pressed("AimRight"):

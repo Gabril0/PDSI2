@@ -1,12 +1,12 @@
 [gd_scene load_steps=4 format=3 uid="uid://drw3g2ky0s32e"]
 
-[ext_resource type="Script" uid="uid://bxgakwnua77iw" path="res://Projectile.gd" id="1_lgxlk"]
+[ext_resource type="Script" uid="uid://bxgakwnua77iw" path="res://Projectiles/Projectile.gd" id="1_lgxlk"]
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_lgxlk"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_i710n"]
 
-[node name="Area2D" type="Area2D"]
+[node name="Area2D" type="Area2D" groups=["projectile"]]
 scale = Vector2(0.1, 0.1)
 script = ExtResource("1_lgxlk")
 range = 500.0

@@ -10,6 +10,8 @@ var direction : Vector2 = Vector2.ZERO
 var _distance_traveled : float = 0.0
 var _start_position : Vector2
 
+func _ready() -> void:
+	print("add entity momentum to bullet initiation direction")
 
 func _process(delta: float) -> void:
 	if direction == Vector2.ZERO:
