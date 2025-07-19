@@ -1,5 +1,6 @@
 class_name Player
 extends Entity
+@onready var animation_handler : PlayerAnimationHandler = $Visuals
 
 func _init() -> void:
 	super._init()
@@ -9,6 +10,7 @@ func _init() -> void:
 func _process(delta: float) -> void:
 	movement_input_check()
 	attack_input_check()
+	animation_handler.update_animation(direction, attackDirection)
 	
 	move(delta)
 

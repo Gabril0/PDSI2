@@ -42,8 +42,11 @@ func shoot_projectile() -> void:
 		return
 	var projectileObj = projectile_scene.instantiate()
 	var projectile : Projectile = projectileObj
+	
 	projectile.position = global_position
 	projectile.direction = currentAttackDirection
 	projectile.damage = damage
 	projectile.range = range
+	projectile.init(player.velocity)
+	
 	get_tree().root.add_child(projectile)
