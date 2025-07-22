@@ -3,10 +3,6 @@ extends Node2D
 @onready var player : Player = $"../.."
 @onready var currentAttackDirection : Vector2 = Vector2.ZERO
 
-var damage : int = 10
-var attack_cooldown : float = 1.0
-var range : float = 300.0
-
 var _attack_timer : float = 0.0
 
 @export var projectile_scene : PackedScene
@@ -14,13 +10,11 @@ var _attack_timer : float = 0.0
 func _process(delta: float) -> void:
 	DirectionCheck()
 	
+	_attack_timer -= delta
 	if currentAttackDirection != Vector2.ZERO:
-		_attack_timer -= delta
 		if _attack_timer <= 0.0:
 			shoot_projectile()
-			_attack_timer = attack_cooldown
-	else:
-		_attack_timer = 0.0
+			_attack_timer = player.attack_speed
 
 func DirectionCheck() -> void:
 	if player.attackDirection == Vector2.ZERO:
@@ -38,15 +32,15 @@ func DirectionCheck() -> void:
 
 func shoot_projectile() -> void:
 	if projectile_scene == null:
-		print("Projectile scene não atribuída!")
+		print("Projectile scene is missing!")
 		return
 	var projectileObj = projectile_scene.instantiate()
 	var projectile : Projectile = projectileObj
 	
 	projectile.position = global_position
 	projectile.direction = currentAttackDirection
-	projectile.damage = damage
-	projectile.range = range
+	projectile.damage = player.damage
+	projectile.range = player.attack_range
 	projectile.init(player.velocity)
 	
 	get_tree().root.add_child(projectile)
