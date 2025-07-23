@@ -1,6 +1,6 @@
 [gd_scene load_steps=32 format=3 uid="uid://cnnl8e0e5chcs"]
 
-[ext_resource type="Script" uid="uid://celklpbsbe88" path="res://Entity/Player/player.gd" id="1_3qydi"]
+[ext_resource type="Script" uid="uid://celklpbsbe88" path="res://Entity/Player/Player.gd" id="1_3qydi"]
 [ext_resource type="Script" uid="uid://bypl4gfnk18rb" path="res://Entity/Player/player_attack.gd" id="2_q3lat"]
 [ext_resource type="Script" uid="uid://dckss14af1ery" path="res://Entity/Player/player_animation_handler.gd" id="2_vk8em"]
 [ext_resource type="Texture2D" uid="uid://c1wcse6jbmvla" path="res://Entity/Player/head.png" id="2_wu0n7"]
@@ -361,6 +361,7 @@ _data = {
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 scale = Vector2(5, 5)
 script = ExtResource("1_3qydi")
+attack_range = 1.0
 speed = 300.0
 friction_force = 0.1
 acceleration_force = 100.0

@@ -7,11 +7,14 @@ var direction : Vector2 = Vector2.ZERO
 @export var damage : int = 10
 @export var range : float = 300.0
 var ignore_group = ""
+@export var range : float = 300.0 # range agora representa o tempo de vida em segundos
+@export var momentum_boost : float = 2.25
+@onready var line : Line2D = $Line2D
+var last_positions : Array[Vector2]
 
-var _distance_traveled : float = 0.0
-var _start_position : Vector2
+var _elapsed_time : float = 0.0
 var initial_momentum : Vector2 = Vector2.ZERO
-var momentum_decay : float = 0.95 # quanto menor, mais rápido o momentum decai
+var momentum_decay : float = 0.98
 
 func _ready() -> void:
 	print("add entity momentum to bullet initiation direction")
@@ -26,16 +29,17 @@ func init(_speed:float, _damage:float, _range:float, _direction : Vector2, _igno
 	initial_momentum = caster_velocity
 
 func _process(delta: float) -> void:
+	trail_renderer()
 	if direction == Vector2.ZERO:
 		return
 	initial_momentum *= momentum_decay
-	var total_velocity = direction.normalized() * speed + initial_momentum
+	var total_velocity = direction.normalized() * speed + initial_momentum * momentum_boost
 	var movement = total_velocity * delta
 	position += movement
-	_distance_traveled += movement.length()
-	if _distance_traveled >= range * 0.8:
-		position.y += decay_ammount / range
-	if _distance_traveled >= range:
+	_elapsed_time += delta
+	if _elapsed_time >= range * 0.9:
+		position.y += decay_ammount * delta / range
+	if _elapsed_time >= range:
 		queue_free()
 
 func _on_body_entered(body):
@@ -44,3 +48,14 @@ func _on_body_entered(body):
 		if body is Entity:
 			body.take_damage(damage)
 		queue_free()
+	
+func trail_renderer():
+	await get_tree().create_timer(0.01).timeout
+	last_positions.append(global_position)
+	line.clear_points()
+	if last_positions.size() > 500:
+		last_positions.pop_at(500)
+	for pos in last_positions:
+		line.add_point(pos)
+	
+	
