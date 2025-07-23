@@ -37,6 +37,6 @@ func shoot_projectile() -> void:
 	var projectileObj = projectile_scene.instantiate()
 	var projectile : Projectile = projectileObj
 	
-	projectile.init(speed, damage, range,  currentAttackDirection, "player", global_position, player.velocity)
+	projectile.init(player.speed, player.damage, player.attack_range,  currentAttackDirection, "player", global_position, player.velocity)
 	
 	get_tree().root.add_child(projectile)

@@ -6,8 +6,7 @@ var decay_ammount : float = 400
 var direction : Vector2 = Vector2.ZERO
 @export var damage : int = 10
 @export var range : float = 300.0
-var ignore_group = ""
-@export var range : float = 300.0 # range agora representa o tempo de vida em segundos
+var ignore_group : String = ""
 @export var momentum_boost : float = 2.25
 @onready var line : Line2D = $Line2D
 var last_positions : Array[Vector2]
@@ -50,8 +49,9 @@ func _on_body_entered(body):
 		queue_free()
 	
 func trail_renderer():
+	line.add_point(position)
 	await get_tree().create_timer(0.01).timeout
-	last_positions.append(global_position)
+	last_positions.append(position)
 	line.clear_points()
 	if last_positions.size() > 500:
 		last_positions.pop_at(500)
