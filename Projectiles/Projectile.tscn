@@ -20,3 +20,5 @@ texture = SubResource("NoiseTexture2D_lgxlk")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2(2.559, 2.559)
 shape = SubResource("CircleShape2D_i710n")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

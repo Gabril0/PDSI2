@@ -6,6 +6,7 @@ extends Node2D
 var damage : int = 10
 var attack_cooldown : float = 1.0
 var range : float = 300.0
+var speed : float = 400.0
 
 var _attack_timer : float = 0.0
 
@@ -43,10 +44,6 @@ func shoot_projectile() -> void:
 	var projectileObj = projectile_scene.instantiate()
 	var projectile : Projectile = projectileObj
 	
-	projectile.position = global_position
-	projectile.direction = currentAttackDirection
-	projectile.damage = damage
-	projectile.range = range
-	projectile.init(player.velocity)
+	projectile.init(speed, damage, range,  currentAttackDirection, "player", global_position, player.velocity)
 	
 	get_tree().root.add_child(projectile)
