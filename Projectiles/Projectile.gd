@@ -8,7 +8,6 @@ var direction : Vector2 = Vector2.ZERO
 @export var range : float = 300.0
 var ignore_group : String = ""
 @export var momentum_boost : float = 2.25
-@onready var line : Line2D = $Line2D
 var last_positions : Array[Vector2]
 
 var _elapsed_time : float = 0.0
@@ -28,7 +27,6 @@ func init(_speed:float, _damage:float, _range:float, _direction : Vector2, _igno
 	initial_momentum = caster_velocity
 
 func _process(delta: float) -> void:
-	trail_renderer()
 	if direction == Vector2.ZERO:
 		return
 	initial_momentum *= momentum_decay
@@ -48,14 +46,6 @@ func _on_body_entered(body):
 			body.take_damage(damage)
 		queue_free()
 	
-func trail_renderer():
-	line.add_point(position)
-	await get_tree().create_timer(0.01).timeout
-	last_positions.append(position)
-	line.clear_points()
-	if last_positions.size() > 500:
-		last_positions.pop_at(500)
-	for pos in last_positions:
-		line.add_point(pos)
+
 	
 	

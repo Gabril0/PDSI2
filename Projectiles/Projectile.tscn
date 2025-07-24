@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://drw3g2ky0s32e"]
+[gd_scene load_steps=5 format=3 uid="uid://drw3g2ky0s32e"]
 
 [ext_resource type="Script" uid="uid://b3gxoncp87s5a" path="res://Projectiles/Projectile.gd" id="1_lgxlk"]
+[ext_resource type="Script" uid="uid://dbk6xd833lx00" path="res://AuxScripts/trail_renderer.gd" id="2_i710n"]
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_lgxlk"]
 
@@ -14,13 +15,17 @@ range = 1.0
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 10
 z_as_relative = false
-scale = Vector2(0.1, 0.1)
 texture = SubResource("NoiseTexture2D_lgxlk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2(2.559, 2.559)
 shape = SubResource("CircleShape2D_i710n")
 
-[node name="Line2D" type="Line2D" parent="."]
+[node name="Line2D" type="Line2D" parent="." node_paths=PackedStringArray("trail", "tracking_object")]
+scale = Vector2(1, 1)
+script = ExtResource("2_i710n")
+trail = NodePath(".")
+tracking_object = NodePath("../Sprite2D")
+trail_length = 1475
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
