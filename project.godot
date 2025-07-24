@@ -15,6 +15,10 @@ run/main_scene="uid://b2qiisetodswb"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+LevelManager="*res://scripts/LevelManager.gd"
+
 [dotnet]
 
 project/assembly_name="PDSI2"

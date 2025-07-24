@@ -1,0 +1,68 @@
+[gd_scene load_steps=3 format=3 uid="uid://bhclrfjexilh6"]
+
+[ext_resource type="Script" uid="uid://cy23a631tcr4j" path="res://scripts/RoomInfo.gd" id="1_kwvll"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kwvll"]
+size = Vector2(298, 196)
+
+[node name="SalaBase" type="Node2D"]
+
+[node name="RoomInfo" type="Node" parent="." node_paths=PackedStringArray("doors")]
+script = ExtResource("1_kwvll")
+doors = [NodePath("../ConnectionPoints/Porta_Cima"), NodePath("../ConnectionPoints/Porta_Baixo"), NodePath("../ConnectionPoints/Porta_Esquerda"), NodePath("../ConnectionPoints/Porta_Direita")]
+
+[node name="Visuals" type="Node2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Visuals"]
+offset_left = -150.0
+offset_top = -100.0
+offset_right = 150.0
+offset_bottom = 100.0
+
+[node name="ConnectionPoints" type="Node2D" parent="."]
+
+[node name="Porta_Cima" type="Marker2D" parent="ConnectionPoints"]
+position = Vector2(-1, -99)
+rotation = -1.5708
+
+[node name="ColorRect" type="ColorRect" parent="ConnectionPoints/Porta_Cima"]
+offset_left = -14.0
+offset_top = -25.0
+offset_right = 13.0
+offset_bottom = 26.0
+
+[node name="Porta_Baixo" type="Marker2D" parent="ConnectionPoints"]
+position = Vector2(-2, 99)
+rotation = 1.5708
+
+[node name="ColorRect" type="ColorRect" parent="ConnectionPoints/Porta_Baixo"]
+offset_left = -14.0
+offset_top = -25.0
+offset_right = 13.0
+offset_bottom = 26.0
+
+[node name="Porta_Esquerda" type="Marker2D" parent="ConnectionPoints"]
+position = Vector2(-149, 0)
+rotation = 3.14159
+
+[node name="ColorRect" type="ColorRect" parent="ConnectionPoints/Porta_Esquerda"]
+offset_left = -14.0
+offset_top = -25.0
+offset_right = 13.0
+offset_bottom = 26.0
+
+[node name="Porta_Direita" type="Marker2D" parent="ConnectionPoints"]
+position = Vector2(148, 0)
+
+[node name="ColorRect" type="ColorRect" parent="ConnectionPoints/Porta_Direita"]
+offset_left = -14.0
+offset_top = -25.0
+offset_right = 13.0
+offset_bottom = 26.0
+
+[node name="EnemySpawns" type="Node2D" parent="."]
+
+[node name="RoomBoundary" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RoomBoundary"]
+shape = SubResource("RectangleShape2D_kwvll")

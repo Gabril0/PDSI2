@@ -1,0 +1,78 @@
+[gd_scene load_steps=3 format=3 uid="uid://djaxoa863invc"]
+
+[ext_resource type="Script" uid="uid://cy23a631tcr4j" path="res://scripts/RoomInfo.gd" id="1_jhaqp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wkrur"]
+size = Vector2(298, 196)
+
+[node name="SalaBase" type="Node2D"]
+
+[node name="RoomInfo" type="Node" parent="." node_paths=PackedStringArray("doors")]
+script = ExtResource("1_jhaqp")
+doors = [NodePath("../ConnectionPoints/Porta_Cima"), NodePath("../ConnectionPoints/Porta_Baixo"), NodePath("../ConnectionPoints/Porta_Esquerda"), NodePath("../ConnectionPoints/Porta_Direita")]
+room_type = 4
+
+[node name="Visuals" type="Node2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Visuals"]
+offset_left = -146.0
+offset_top = -95.0
+offset_right = 148.0
+offset_bottom = 99.0
+color = Color(0.770308, 0.935366, 1, 1)
+
+[node name="ConnectionPoints" type="Node2D" parent="."]
+
+[node name="Porta_Cima" type="Marker2D" parent="ConnectionPoints"]
+position = Vector2(-1, -99)
+rotation = -1.5708
+
+[node name="ColorRect" type="ColorRect" parent="ConnectionPoints/Porta_Cima"]
+offset_left = -21.0
+offset_top = -16.0
+offset_right = 21.0
+offset_bottom = 16.0
+color = Color(0.397304, 1, 0.988193, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="Porta_Baixo" type="Marker2D" parent="ConnectionPoints"]
+position = Vector2(-2, 99)
+rotation = 1.5708
+
+[node name="ColorRect" type="ColorRect" parent="ConnectionPoints/Porta_Baixo"]
+offset_left = -21.0
+offset_top = -16.0
+offset_right = 21.0
+offset_bottom = 16.0
+color = Color(0.397304, 1, 0.988193, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="Porta_Esquerda" type="Marker2D" parent="ConnectionPoints"]
+position = Vector2(-149, 0)
+rotation = 3.14159
+
+[node name="ColorRect" type="ColorRect" parent="ConnectionPoints/Porta_Esquerda"]
+offset_left = -21.0
+offset_top = -16.0
+offset_right = 21.0
+offset_bottom = 16.0
+color = Color(0.397304, 1, 0.988193, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="Porta_Direita" type="Marker2D" parent="ConnectionPoints"]
+position = Vector2(148, 0)
+
+[node name="ColorRect" type="ColorRect" parent="ConnectionPoints/Porta_Direita"]
+offset_left = -21.0
+offset_top = -16.0
+offset_right = 21.0
+offset_bottom = 16.0
+color = Color(0.397304, 1, 0.988193, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="EnemySpawns" type="Node2D" parent="."]
+
+[node name="RoomBoundary" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RoomBoundary"]
+shape = SubResource("RectangleShape2D_wkrur")
