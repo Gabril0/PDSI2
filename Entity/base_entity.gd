@@ -12,6 +12,8 @@ extends CharacterBody2D
 # Movement properties
 @export var friction_force : float = 0.05
 @export var acceleration_force : float = 0.1
+@export var hit_particles : PackedScene
+@export var death_particles : PackedScene
 var direction : Vector2
 var attackDirection : Vector2
 
@@ -64,6 +66,12 @@ func hit_effect() -> void:
 	for sprite in sprites:
 		sprite.modulate = Color(1, 1, 1)
 		sprite.position = original_positions[sprite]
+		
+	# Hit particles
+	if hit_particles:
+		var particles: CPUParticles2D = hit_particles.instantiate()
+		particles.emitting = true
+		add_child(particles)
 	
 
 func get_all_sprite2d_children(parent_node) -> Array[Sprite2D]:
@@ -82,6 +90,11 @@ func die() -> void:
 		lerp_progress += get_process_delta_time() * 10
 		await get_tree().process_frame
 	
+	if death_particles:
+		var particles: CPUParticles2D = death_particles.instantiate()
+		particles.emitting = true
+		particles.position = global_position
+		get_tree().root.add_child(particles)
 	queue_free() 
 
 
