@@ -1,31 +1,65 @@
 [gd_scene load_steps=5 format=3 uid="uid://drw3g2ky0s32e"]
 
 [ext_resource type="Script" uid="uid://b3gxoncp87s5a" path="res://Projectiles/Projectile.gd" id="1_lgxlk"]
+[ext_resource type="Texture2D" uid="uid://bg7uxev6g3klo" path="res://Projectiles/test_proj.png" id="2_eje5u"]
 [ext_resource type="Script" uid="uid://dbk6xd833lx00" path="res://AuxScripts/trail_renderer.gd" id="2_i710n"]
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_lgxlk"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eje5u"]
+size = Vector2(27, 77.5)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_i710n"]
-
-[node name="Area2D" type="Area2D" groups=["projectile"]]
+[node name="Area2D" type="Area2D" node_paths=PackedStringArray("sprite") groups=["projectile"]]
 scale = Vector2(0.1, 0.1)
 script = ExtResource("1_lgxlk")
 range = 1.0
+momentum_boost = 2.5
+sprite = NodePath("Sprite2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 10
 z_as_relative = false
-texture = SubResource("NoiseTexture2D_lgxlk")
+texture_filter = 1
+scale = Vector2(20, 20)
+texture = ExtResource("2_eje5u")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2(2.559, 2.559)
-shape = SubResource("CircleShape2D_i710n")
+[node name="Lines" type="Node2D" parent="Sprite2D"]
+scale = Vector2(0.05, 0.05)
 
-[node name="Line2D" type="Line2D" parent="." node_paths=PackedStringArray("trail", "tracking_object")]
+[node name="Line2D2" type="Line2D" parent="Sprite2D/Lines" node_paths=PackedStringArray("target")]
+position = Vector2(-250, -820)
 scale = Vector2(1, 1)
 script = ExtResource("2_i710n")
-trail = NodePath(".")
-tracking_object = NodePath("../Sprite2D")
-trail_length = 1475
+target = NodePath(".")
+trail_fade_time = 0.25
+start_width = 1.0
+end_width = 8.0
+start_color = Color(0.913725, 0.74902, 0.807843, 0)
+end_color = Color(0.999994, 0.2747, 0.456014, 0.211765)
+
+[node name="Line2D" type="Line2D" parent="Sprite2D/Lines" node_paths=PackedStringArray("target")]
+position = Vector2(150, -50)
+scale = Vector2(1, 1)
+script = ExtResource("2_i710n")
+target = NodePath(".")
+trail_fade_time = 0.25
+start_width = 1.0
+end_width = 8.0
+start_color = Color(0.913725, 0.74902, 0.807843, 0.0901961)
+end_color = Color(0.913725, 0, 0.356863, 0.321569)
+
+[node name="Line2D5" type="Line2D" parent="Sprite2D/Lines" node_paths=PackedStringArray("target")]
+position = Vector2(-250, 710)
+scale = Vector2(1, 1)
+script = ExtResource("2_i710n")
+target = NodePath(".")
+trail_fade_time = 0.25
+start_width = 1.0
+end_width = 8.0
+start_color = Color(0.913725, 0.74902, 0.807843, 0)
+end_color = Color(0.999994, 0.2747, 0.456014, 0.211765)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-10, -65)
+scale = Vector2(20, 20)
+shape = SubResource("RectangleShape2D_eje5u")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
