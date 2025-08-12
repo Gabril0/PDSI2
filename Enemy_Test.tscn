@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://b2qiisetodswb"]
+[gd_scene load_steps=4 format=3 uid="uid://b2qiisetodswb"]
 
 [ext_resource type="PackedScene" uid="uid://4eg2njkuphmh" path="res://Entity/Enemies/Dummy.tscn" id="1_ghswv"]
 [ext_resource type="PackedScene" uid="uid://cnnl8e0e5chcs" path="res://Entity/Player/Player.tscn" id="2_clfm6"]
+[ext_resource type="PackedScene" uid="uid://j6w5gsr1y5le" path="res://Entity/Enemies/Failex.tscn" id="3_clfm6"]
 
 [node name="EnemyTest" type="Node2D"]
 
@@ -10,3 +11,6 @@ position = Vector2(952, 439)
 
 [node name="Player" parent="." instance=ExtResource("2_clfm6")]
 position = Vector2(573, 403)
+
+[node name="Failex" parent="." instance=ExtResource("3_clfm6")]
+position = Vector2(66, 422)

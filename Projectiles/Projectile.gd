@@ -16,9 +16,6 @@ var initial_momentum : Vector2 = Vector2.ZERO
 var momentum_decay : float = 0.98
 @onready var original_scale : Vector2 = scale
 @onready var particles_end : CPUParticles2D = $Sprite2D/HitParticles
-
-func _ready() -> void:
-	print("add entity momentum to bullet initiation direction")
 	
 func init(_speed:float, _damage:float, _range:float, _direction : Vector2, _ignore_group: String, pos : Vector2, caster_velocity : Vector2) -> void:
 	speed = _speed
@@ -58,7 +55,9 @@ func end_projectile() -> void:
 	var p = particles_end.duplicate()
 	get_tree().root.add_child(p)
 	p.scale = Vector2(1,1)
-	p.position = position
+	p.emitting = true
+	p.position = global_position
+	p.connect("finished", p.queue_free)
 	queue_free()
 
 func _on_body_entered(body):

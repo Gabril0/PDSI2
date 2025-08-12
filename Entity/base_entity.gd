@@ -7,6 +7,7 @@ extends CharacterBody2D
 @export var attack_range : float = 50.0
 @export var attack_speed : float = 1.0
 @export var speed : float = 200.0
+@export var projectile_speed : float = 800.0
 
 # Movement properties
 @export var friction_force : float = 0.05
@@ -71,7 +72,6 @@ func get_all_sprite2d_children(parent_node) -> Array[Sprite2D]:
 		if child is Sprite2D:
 			sprites.append(child)
 		sprites += get_all_sprite2d_children(child)
-	print(typeof(sprites))
 	return sprites
 
 func die() -> void:
