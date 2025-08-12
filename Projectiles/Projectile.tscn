@@ -1,8 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://drw3g2ky0s32e"]
+[gd_scene load_steps=6 format=3 uid="uid://drw3g2ky0s32e"]
 
 [ext_resource type="Script" uid="uid://b3gxoncp87s5a" path="res://Projectiles/Projectile.gd" id="1_lgxlk"]
 [ext_resource type="Texture2D" uid="uid://bg7uxev6g3klo" path="res://Projectiles/test_proj.png" id="2_eje5u"]
 [ext_resource type="Script" uid="uid://dbk6xd833lx00" path="res://AuxScripts/trail_renderer.gd" id="2_i710n"]
+
+[sub_resource type="Curve" id="Curve_eje5u"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.215909, 1), 0.0, 0.0, 0, 0, Vector2(0.931818, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eje5u"]
 size = Vector2(27, 77.5)
@@ -15,7 +19,7 @@ momentum_boost = 2.5
 sprite = NodePath("Sprite2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-z_index = 10
+z_index = 2
 z_as_relative = false
 texture_filter = 1
 scale = Vector2(20, 20)
@@ -56,6 +60,29 @@ start_width = 1.0
 end_width = 8.0
 start_color = Color(0.913725, 0.74902, 0.807843, 0)
 end_color = Color(0.999994, 0.2747, 0.456014, 0.211765)
+
+[node name="HitParticles" type="CPUParticles2D" parent="Sprite2D"]
+z_index = 20
+emitting = false
+amount = 30
+lifetime = 0.6
+one_shot = true
+preprocess = 0.01
+explosiveness = 1.0
+randomness = 0.47
+lifetime_randomness = 0.67
+emission_shape = 3
+emission_rect_extents = Vector2(1.2, 2.275)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 40.4
+initial_velocity_max = 131.31
+angular_velocity_min = -322.93
+angular_velocity_max = 348.81
+scale_amount_min = 0.0
+scale_amount_max = 8.0
+scale_amount_curve = SubResource("Curve_eje5u")
+color = Color(0.843137, 0.192157, 0.541176, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-10, -65)

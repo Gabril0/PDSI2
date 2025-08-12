@@ -7,15 +7,6 @@ var _attack_timer : float = 0.0
 
 @export var projectile_scene : PackedScene
 
-func _process(delta: float) -> void:
-	DirectionCheck()
-	
-	_attack_timer -= delta
-	if currentAttackDirection != Vector2.ZERO:
-		if _attack_timer <= 0.0:
-			shoot_projectile()
-			_attack_timer = player.attack_speed
-
 func DirectionCheck() -> void:
 	if player.attackDirection == Vector2.ZERO:
 		currentAttackDirection = Vector2.ZERO
@@ -31,6 +22,7 @@ func DirectionCheck() -> void:
 		currentAttackDirection = Vector2(0,1)
 
 func shoot_projectile() -> void:
+	DirectionCheck()
 	if projectile_scene == null:
 		print("Projectile scene is missing!")
 		return

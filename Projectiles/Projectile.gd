@@ -15,6 +15,7 @@ var _elapsed_time : float = 0.0
 var initial_momentum : Vector2 = Vector2.ZERO
 var momentum_decay : float = 0.98
 @onready var original_scale : Vector2 = scale
+@onready var particles_end : CPUParticles2D = $Sprite2D/HitParticles
 
 func _ready() -> void:
 	print("add entity momentum to bullet initiation direction")
@@ -41,6 +42,9 @@ func _process(delta: float) -> void:
 	position += movement
 	_elapsed_time += delta
 	
+	if _elapsed_time <= range * 0.25:
+		scale = lerp(Vector2.ZERO, original_scale, _elapsed_time / (range * 0.25))
+	
 	if _elapsed_time >= range * 0.9:
 		position.y += decay_ammount * delta / range
 	if _elapsed_time >= range * 0.8:
@@ -48,14 +52,21 @@ func _process(delta: float) -> void:
 		var t = (_elapsed_time - range * 0.8) / fade_time
 		scale = original_scale.lerp( Vector2.ZERO, t)
 	if _elapsed_time >= range:
-		queue_free()
+		end_projectile()
+		
+func end_projectile() -> void:
+	var p = particles_end.duplicate()
+	get_tree().root.add_child(p)
+	p.scale = Vector2(1,1)
+	p.position = position
+	queue_free()
 
 func _on_body_entered(body):
 
 	if not body.is_in_group(ignore_group):
 		if body is Entity:
 			body.take_damage(damage)
-		queue_free()
+		end_projectile()
 		
 func check_side(direc : Vector2):
 	if direc.length() > 0:
