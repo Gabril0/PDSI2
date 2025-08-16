@@ -1,6 +1,7 @@
 class_name Player
 extends Entity
 @onready var animation_handler : PlayerAnimationHandler = $Visuals
+var itemPassiveDecorator
 
 func _init() -> void:
 	super._init()
