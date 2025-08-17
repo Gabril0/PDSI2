@@ -15,25 +15,24 @@ var direction : Vector2
 var attackDirection : Vector2
 
 func move(delta : float) -> void:
-    var friction : float = velocity.length() * friction_force
-    var acceleration : float = speed * acceleration_force
-    
-    if velocity.length() < speed:
-        velocity += delta * direction * acceleration
-    velocity += friction * -velocity.normalized()
-    
-    move_and_slide()
+	var friction : float = velocity.length() * friction_force
+	var acceleration : float = speed * acceleration_force
+	
+	if velocity.length() < speed:
+		velocity += delta * direction * acceleration
+	velocity += friction * -velocity.normalized()
+	
+	move_and_slide()
 
 func take_damage(amount : int) -> void:
-    health -= amount
-    if health <= 0:
-        die()
+	health -= amount
+	if health <= 0:
+		die()
 
 func die() -> void:
-    queue_free() 
+	queue_free() 
 
 
 func _init() -> void:
-    direction = Vector2.ZERO
-    attackDirection = Vector2.ZERO
-
+	direction = Vector2.ZERO
+	attackDirection = Vector2.ZERO
