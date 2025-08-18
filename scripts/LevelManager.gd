@@ -7,7 +7,7 @@ const ROOM_SIZE = Vector2(3500, 2500)
 const PLAYER_SPAWN_OFFSET = -200.0
 
 ## --- PARÂMETROS CONFIGURÁVEIS  ---
-@export var level_number: int = 1
+@export var level_number: int = 0
 @export var min_rooms: int = 8
 @export var max_rooms: int = 12
 
@@ -434,3 +434,18 @@ func _find_best_template(template_dict: Dictionary) -> PackedScene:
 	
 	# Se não encontrou absolutamente nada, retorna nulo
 	return null
+
+
+func go_to_next_level():
+	"""
+	Incrementa o número do nível, ajusta os parâmetros e gera um novo mapa.
+	"""
+	print("Indo para o próximo nível...")
+	level_number += 1
+	# Aumenta o número mínimo e máximo de salas em 1 a cada nível, por exemplo.
+	min_rooms += 1
+	max_rooms += 1
+	generate_level(dungeon_container, player)
+	# TODO
+	# Ex: Um fade-out/fade-in para suavizar a mudança de nível.
+	# _play_level_transition_effect()
