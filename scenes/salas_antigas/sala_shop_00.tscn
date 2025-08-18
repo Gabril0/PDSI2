@@ -1,23 +1,24 @@
-[gd_scene load_steps=3 format=3 uid="uid://bha47igfpaje2"]
+[gd_scene load_steps=3 format=3 uid="uid://cj3gjmj1goyq5"]
 
-[ext_resource type="Script" uid="uid://cy23a631tcr4j" path="res://scripts/RoomInfo.gd" id="1_e565r"]
+[ext_resource type="Script" uid="uid://cy23a631tcr4j" path="res://scripts/RoomInfo.gd" id="1_j3df5"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_e565r"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5ul40"]
 size = Vector2(298, 196)
 
 [node name="SalaBase" type="Node2D"]
 
 [node name="RoomInfo" type="Node" parent="." node_paths=PackedStringArray("doors")]
-script = ExtResource("1_e565r")
+script = ExtResource("1_j3df5")
 doors = [NodePath("../ConnectionPoints/Porta_Cima"), NodePath("../ConnectionPoints/Porta_Baixo"), NodePath("../ConnectionPoints/Porta_Esquerda"), NodePath("../ConnectionPoints/Porta_Direita")]
 
 [node name="Visuals" type="Node2D" parent="."]
 
 [node name="ColorRect" type="ColorRect" parent="Visuals"]
-offset_left = -148.0
-offset_top = -97.0
-offset_right = 148.0
-offset_bottom = 95.0
+offset_left = -145.0
+offset_top = -94.0
+offset_right = 147.0
+offset_bottom = 94.0
+color = Color(0.68736, 0.359544, 4.81307e-07, 1)
 
 [node name="ConnectionPoints" type="Node2D" parent="."]
 
@@ -26,10 +27,11 @@ position = Vector2(-1, -99)
 rotation = -1.5708
 
 [node name="ColorRect" type="ColorRect" parent="ConnectionPoints/Porta_Cima"]
-offset_left = -18.0
-offset_top = -19.0
-offset_right = 18.0
-offset_bottom = 19.0
+offset_left = -21.0
+offset_top = -16.0
+offset_right = 21.0
+offset_bottom = 16.0
+color = Color(0.74, 0.57942, 0.2812, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="Porta_Baixo" type="Marker2D" parent="ConnectionPoints"]
@@ -37,10 +39,11 @@ position = Vector2(-2, 99)
 rotation = 1.5708
 
 [node name="ColorRect" type="ColorRect" parent="ConnectionPoints/Porta_Baixo"]
-offset_left = -18.0
-offset_top = -19.0
-offset_right = 18.0
-offset_bottom = 19.0
+offset_left = -21.0
+offset_top = -16.0
+offset_right = 21.0
+offset_bottom = 16.0
+color = Color(0.74, 0.57942, 0.2812, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="Porta_Esquerda" type="Marker2D" parent="ConnectionPoints"]
@@ -48,20 +51,22 @@ position = Vector2(-149, 0)
 rotation = 3.14159
 
 [node name="ColorRect" type="ColorRect" parent="ConnectionPoints/Porta_Esquerda"]
-offset_left = -18.0
-offset_top = -19.0
-offset_right = 18.0
-offset_bottom = 19.0
+offset_left = -21.0
+offset_top = -16.0
+offset_right = 21.0
+offset_bottom = 16.0
+color = Color(0.74, 0.57942, 0.2812, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="Porta_Direita" type="Marker2D" parent="ConnectionPoints"]
 position = Vector2(148, 0)
 
 [node name="ColorRect" type="ColorRect" parent="ConnectionPoints/Porta_Direita"]
-offset_left = -18.0
-offset_top = -19.0
-offset_right = 18.0
-offset_bottom = 19.0
+offset_left = -21.0
+offset_top = -16.0
+offset_right = 21.0
+offset_bottom = 16.0
+color = Color(0.74, 0.57942, 0.2812, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="EnemySpawns" type="Node2D" parent="."]
@@ -69,4 +74,4 @@ metadata/_edit_use_anchors_ = true
 [node name="RoomBoundary" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RoomBoundary"]
-shape = SubResource("RectangleShape2D_e565r")
+shape = SubResource("RectangleShape2D_5ul40")

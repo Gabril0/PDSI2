@@ -1,10 +1,10 @@
-[gd_scene load_steps=5 format=4 uid="uid://bf06bw2ya5fhe"]
+[gd_scene load_steps=5 format=4 uid="uid://bha47igfpaje2"]
 
-[ext_resource type="Script" uid="uid://cy23a631tcr4j" path="res://scripts/RoomInfo.gd" id="1_5gbfv"]
-[ext_resource type="Texture2D" uid="uid://gxg5sbtec73j" path="res://assets/tboi/rooms.png" id="2_8ilg7"]
+[ext_resource type="Script" uid="uid://cy23a631tcr4j" path="res://scripts/RoomInfo.gd" id="1_e565r"]
+[ext_resource type="Texture2D" uid="uid://gxg5sbtec73j" path="res://assets/tboi/rooms.png" id="2_rt84j"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rt84j"]
-texture = ExtResource("2_8ilg7")
+texture = ExtResource("2_rt84j")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
@@ -162,7 +162,7 @@ sources/1 = SubResource("TileSetAtlasSource_rt84j")
 [node name="SalaBase" type="Node2D"]
 
 [node name="RoomInfo" type="Node" parent="." node_paths=PackedStringArray("doors")]
-script = ExtResource("1_5gbfv")
+script = ExtResource("1_e565r")
 doors = [NodePath("../ConnectionPoints/DoorPlaceholder_Up"), NodePath("../ConnectionPoints/DoorPlaceholder_Down"), NodePath("../ConnectionPoints/DoorPlaceholder_Left"), NodePath("../ConnectionPoints/DoorPlaceholder_Right")]
 
 [node name="Visuals" type="Node2D" parent="."]
@@ -194,10 +194,3 @@ rotation = -4.71239
 scale = Vector2(8, 8)
 
 [node name="EnemySpawns" type="Node2D" parent="."]
-
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -51.0
-offset_top = -38.0
-offset_right = 53.0
-offset_bottom = 46.0
-color = Color(0.740322, 0.366689, 0.0178128, 1)

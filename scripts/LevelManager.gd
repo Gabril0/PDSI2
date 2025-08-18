@@ -1,13 +1,15 @@
 extends Node
 
+# Definindo o tamanho de cada célula da "matriz". Deve ser grande o suficiente
+# para que nenhuma sala se encoste na outra. Ex: tamanho da maior sala + margem.
+const ROOM_SIZE = Vector2(3500, 2500)
+ # Distância em pixels que o jogador surgirá da porta ao entrar em uma sala
+const PLAYER_SPAWN_OFFSET = -200.0
+
 ## --- PARÂMETROS CONFIGURÁVEIS  ---
 @export var level_number: int = 1
 @export var min_rooms: int = 8
 @export var max_rooms: int = 12
-
-# Definindo o tamanho de cada célula da "matriz". Deve ser grande o suficiente
-# para que nenhuma sala se encoste na outra. Ex: tamanho da maior sala + margem.
-const ROOM_SIZE = Vector2(800, 600)
 
 # Templates de salas
 @export var rooms_path: String = "res://scenes/salas/"
@@ -20,8 +22,13 @@ var all_boss_room_templates: Array[PackedScene] = []
 var all_shop_room_templates: Array[PackedScene] = []
 var all_item_room_templates: Array[PackedScene] = []
 
+# Templates de portas
+@export var doors_path: String = "res://scenes/portas/"
+var door_templates: Dictionary = {} # {"normal": [PackedScene], "boss": [PackedScene], ...}
+
 func _ready():
 	_load_room_templates_from_path()
+	_load_door_templates_from_path()
 
 # Referência ao nó que conterá as salas
 var dungeon_container: Node2D
@@ -57,7 +64,7 @@ func generate_level(container: Node2D, player_ref: CharacterBody2D):
 	
 	# 9. Posiciona o personagem
 	player.global_position = spawned_room_nodes[Vector2i.ZERO].global_position
-
+	
 	# 10. Gera o mapa (a ser implementado na UI)
 	print("Level gerado com %d salas." % grid.size())
 	update_minimap()
@@ -133,6 +140,7 @@ func _instantiate_rooms_from_grid():
 		var room_node = template.instantiate()
 		var calculated_position = Vector2(pos) * ROOM_SIZE
 		room_node.global_position = calculated_position
+		_configure_room_doors(room_node, pos, room_data.connections)
 		# PRINT DE DEPURAÇÃO MAIS IMPORTANTE
 		print("Instanciando sala tipo '%s' na coordenada do grid %s. Posição final calculada: %s" % [room_data.type, str(pos), str(calculated_position)])
 		
@@ -159,7 +167,7 @@ func _instantiate_rooms_from_grid():
 			room_info.room_type = RoomInfo.RoomType.NORMAL
 		
 		# Ativa/desativa as portas visuais (opcional, mas bom para debug)
-		_configure_room_doors(room_node, room_data.connections)
+		#_configure_room_doors(room_node, room_data.connections)
 
 
 func _get_template_for_type(type: String) -> PackedScene:
@@ -179,20 +187,109 @@ func _get_template_for_type(type: String) -> PackedScene:
 			return normal_room_templates.pick_random()
 
 
-func _configure_room_doors(room_node: Node2D, connections: Array):
-	var doors_node = room_node.get_node("ConnectionPoints")
-	for door_marker in doors_node.get_children():
-		var is_active = false
-		if door_marker.name == "Porta_Cima" and connections.has(Vector2i.UP):
-			is_active = true
-		elif door_marker.name == "Porta_Baixo" and connections.has(Vector2i.DOWN):
-			is_active = true
-		elif door_marker.name == "Porta_Direita" and connections.has(Vector2i.RIGHT):
-			is_active = true
-		elif door_marker.name == "Porta_Esquerda" and connections.has(Vector2i.LEFT):
-			is_active = true
+func _configure_room_doors(room_node: Node2D, room_pos: Vector2i, connections: Array):
+	var placeholders_node = room_node.get_node("ConnectionPoints")
+	
+	var direction_map = {
+		Vector2i.UP: "DoorPlaceholder_Up",
+		Vector2i.DOWN: "DoorPlaceholder_Down",
+		Vector2i.LEFT: "DoorPlaceholder_Left",
+		Vector2i.RIGHT: "DoorPlaceholder_Right"
+	}
+
+	for direction in connections:
+		var placeholder_name = direction_map.get(direction)
+		var placeholder = placeholders_node.get_node_or_null(placeholder_name)
+		if not placeholder:
+			print("AVISO: Placeholder de porta não encontrado: ", placeholder_name)
+			continue
+			
+		# 2. Lógica Simplificada: Se uma das salas não for normal, use o tipo dela.
+		var current_room_type = grid[room_pos].type
+		var neighbor_type = grid[room_pos + direction].type
 		
-		door_marker.visible = is_active # Esconde ou mostra o ícone do Marker2D
+		# Trata 'start' como 'normal' para a lógica.
+		if current_room_type == "start": current_room_type = "normal"
+		if neighbor_type == "start": neighbor_type = "normal"
+
+		var door_type_to_load = "normal" # O padrão é uma porta normal.
+		if current_room_type != "normal":
+			door_type_to_load = current_room_type
+		elif neighbor_type != "normal":
+			door_type_to_load = neighbor_type
+		
+		# 3. Pega um template de porta aleatório do tipo correto.
+		if not door_templates.has(door_type_to_load) or door_templates[door_type_to_load].is_empty():
+			print("AVISO: Nenhum template de porta encontrado para o tipo '", door_type_to_load, "'. Usando 'normal'.")
+			door_type_to_load = "normal"
+		
+		var door_template: PackedScene = door_templates[door_type_to_load].pick_random()
+		
+		# 4. Instancia e configura a porta.
+		var door_instance = door_template.instantiate()
+		door_instance.transform = placeholder.transform
+		door_instance.direction = direction
+
+		# 5. Conecta o sinal.
+		door_instance.player_entered.connect(Callable(self, "_on_player_changed_room").bind(room_pos))
+		
+		# 6. Adiciona a porta à cena e remove o placeholder.
+		placeholders_node.add_child(door_instance)
+		placeholder.queue_free()
+
+func _on_player_changed_room(direction_of_exit: Vector2i, current_pos: Vector2i):
+	# 1. Calcula a posição da próxima sala
+	var next_room_pos = current_pos + direction_of_exit
+	
+	if not spawned_room_nodes.has(next_room_pos):
+		print("ERRO: Tentou se mover para uma sala que não existe em ", next_room_pos)
+		return
+		
+	var current_room_node = spawned_room_nodes[current_pos]
+	var next_room_node = spawned_room_nodes[next_room_pos]
+	
+	# 2. Encontra a porta de entrada na nova sala
+	var entry_direction = -direction_of_exit
+	var entry_door = _get_door_in_direction(next_room_node, entry_direction)
+	
+	if not entry_door:
+		print("ERRO: Não foi possível encontrar a porta de entrada na sala ", next_room_pos)
+		player.global_position = next_room_node.global_position # Teleporta para o centro como fallback
+		return
+
+	# 3. Calcula a posição final do jogador (A GRANDE MUDANÇA)
+	# Pega a posição global da porta de entrada...
+	# ...e adiciona um vetor na direção de entrada, multiplicado pela nossa distância.
+	var spawn_position = entry_door.global_position + (Vector2(entry_direction) * PLAYER_SPAWN_OFFSET)
+	
+	# 4. Teleporta o jogador para a posição calculada
+	player.global_position = spawn_position
+
+	# 5. [BÔNUS] Adiciona uma transição suave de câmera
+	# Esta parte assume que você tem um nó Camera2D na sua cena principal.
+	# Se a câmera for filha do player, você pode pular esta parte.
+	var camera = get_tree().get_root().get_node_or_null("Mundo/Camera2D") # Ajuste o caminho para sua câmera
+	if camera:
+		var tween = create_tween()
+		tween.set_trans(Tween.TRANS_QUINT) # Efeito de aceleração/desaceleração suave
+		tween.set_ease(Tween.EASE_OUT)
+		# Anima a câmera da posição da sala antiga para a nova em 0.4 segundos
+		tween.tween_property(camera, "global_position", next_room_node.global_position, 0.4)
+
+	# 6. Lógica de abrir/fechar portas da nova sala (a ser implementada)
+	# Ex: _update_doors_for_room(next_room_node)
+
+
+# Função auxiliar para encontrar uma porta específica em uma sala
+func _get_door_in_direction(room_node: Node2D, direction: Vector2i) -> Node2D:
+	var doors_container = room_node.get_node_or_null("ConnectionPoints")
+	if not doors_container: return null
+	
+	for door in doors_container.get_children():
+		# Garante que o nó é uma porta e tem a propriedade 'direction'
+		if "direction" in door and door.direction == direction:
+			return door
+	return null
 
 # 10. Lógica do Minimapa (exemplo)
 func update_minimap():
@@ -253,6 +350,36 @@ func _load_room_templates_from_path():
 		print("Carregados %d templates de salas normais." % normal_room_templates.size())
 	else:
 		print("ERRO: Não foi possível encontrar o diretório de salas: ", rooms_path)
+
+func _load_door_templates_from_path():
+	door_templates.clear()
+	var dir = DirAccess.open(doors_path)
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if not dir.current_is_dir() and file_name.ends_with(".tscn"):
+				# Ex: "porta_boss_00.tscn" -> parts = ["porta", "boss", "00.tscn"]
+				var parts = file_name.get_basename().split("_")
+				if parts.size() < 2:
+					print("AVISO: Arquivo de porta com nome inválido: ", file_name)
+					file_name = dir.get_next()
+					continue
+				
+				var door_type = parts[1]
+				var full_path = doors_path.path_join(file_name)
+				var loaded_scene = load(full_path) as PackedScene
+				
+				# Garante que a chave existe no dicionário
+				if not door_templates.has(door_type):
+					door_templates[door_type] = []
+				
+				door_templates[door_type].append(loaded_scene)
+				
+			file_name = dir.get_next()
+		print("Templates de portas carregados: ", door_templates.keys())
+	else:
+		print("ERRO: Não foi possível encontrar o diretório de portas: ", doors_path)
 
 func _randomize_special_room_templates():
 	# Sorteia um template de cada lista mestra e o define para o andar atual
