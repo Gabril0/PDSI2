@@ -1,0 +1,36 @@
+[gd_scene load_steps=4 format=3 uid="uid://bnoqsc7gli5ur"]
+
+[ext_resource type="Script" uid="uid://kdm5v83fn4q6" path="res://scripts/porta.gd" id="1_v8lrs"]
+[ext_resource type="Texture2D" uid="uid://gxg5sbtec73j" path="res://assets/tboi/rooms.png" id="2_u6tgi"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bbm7q"]
+radius = 6.99971
+height = 17.9993
+
+[node name="porta_normal_00" type="Node2D"]
+scale = Vector2(8, 8)
+script = ExtResource("1_v8lrs")
+
+[node name="porta" type="Sprite2D" parent="."]
+texture = ExtResource("2_u6tgi")
+region_enabled = true
+region_rect = Rect2(208, 0, 16, 16)
+
+[node name="fechada" type="Sprite2D" parent="."]
+texture = ExtResource("2_u6tgi")
+region_enabled = true
+region_rect = Rect2(192, 0, 16, 16)
+
+[node name="aberta" type="Sprite2D" parent="."]
+texture = ExtResource("2_u6tgi")
+region_enabled = true
+region_rect = Rect2(192, 16, 16, 16)
+
+[node name="area_entrar" type="Area2D" parent="."]
+position = Vector2(0, 3)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="area_entrar"]
+position = Vector2(0, 2)
+rotation = 1.57989
+shape = SubResource("CapsuleShape2D_bbm7q")

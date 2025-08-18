@@ -13,18 +13,22 @@ const PLAYER_SPAWN_OFFSET = -200.0
 
 # Templates de salas
 @export var rooms_path: String = "res://scenes/salas/"
+# --- DICIONÁRIOS para ARMAZENAR TODOS os templates por nível ---
+var start_room_templates: Dictionary = {}    # Nível -> Template
+var normal_room_templates: Dictionary = {}   # Nível -> Array de Templates
+var boss_room_templates: Dictionary = {}     # Nível -> Array de Templates
+var item_room_templates: Dictionary = {}     # Nível -> Array de Templates
+# --- VARIÁVEIS para guardar o template ESCOLHIDO para o andar ATUAL ---
 var start_room_template: PackedScene
-var normal_room_templates: Array[PackedScene] = []
 var boss_room_template: PackedScene
-var shop_room_template: PackedScene
 var item_room_template: PackedScene
-var all_boss_room_templates: Array[PackedScene] = []
-var all_shop_room_templates: Array[PackedScene] = []
-var all_item_room_templates: Array[PackedScene] = []
+var shop_room_template: PackedScene
 
 # Templates de portas
 @export var doors_path: String = "res://scenes/portas/"
-var door_templates: Dictionary = {} # {"normal": [PackedScene], "boss": [PackedScene], ...}
+# Estrutura: { "tipo": { nível: [templates] } }
+# Ex: { "normal": { 1: [porta_n_1], 2: [porta_n_2] }, "boss": { 0: [porta_b] } }
+var door_templates: Dictionary = {}
 
 func _ready():
 	_load_room_templates_from_path()
@@ -177,63 +181,71 @@ func _get_template_for_type(type: String) -> PackedScene:
 		"boss":
 			return boss_room_template
 		"shop":
-			return shop_room_template
-		"item": # Esta string vem do seu Dicionário 'grid'
+			return shop_room_template # Loja continua simples
+		"item":
 			return item_room_template
 		_: # "normal"
-			if normal_room_templates.is_empty():
-				print("ERRO: Nenhum template de sala normal foi carregado!")
-				return null
-			return normal_room_templates.pick_random()
+			var template = _find_best_template(normal_room_templates)
+			if not template:
+				print("ERRO: Nenhum template de sala normal encontrado para o nível ", level_number, " ou inferior.")
+			return template
 
 
 func _configure_room_doors(room_node: Node2D, room_pos: Vector2i, connections: Array):
+	# ... (a primeira parte da função continua igual) ...
 	var placeholders_node = room_node.get_node("ConnectionPoints")
-	
 	var direction_map = {
-		Vector2i.UP: "DoorPlaceholder_Up",
-		Vector2i.DOWN: "DoorPlaceholder_Down",
-		Vector2i.LEFT: "DoorPlaceholder_Left",
-		Vector2i.RIGHT: "DoorPlaceholder_Right"
+		Vector2i.UP: "DoorPlaceholder_Up", Vector2i.DOWN: "DoorPlaceholder_Down",
+		Vector2i.LEFT: "DoorPlaceholder_Left", Vector2i.RIGHT: "DoorPlaceholder_Right"
 	}
 
 	for direction in connections:
 		var placeholder_name = direction_map.get(direction)
 		var placeholder = placeholders_node.get_node_or_null(placeholder_name)
 		if not placeholder:
-			print("AVISO: Placeholder de porta não encontrado: ", placeholder_name)
 			continue
 			
-		# 2. Lógica Simplificada: Se uma das salas não for normal, use o tipo dela.
 		var current_room_type = grid[room_pos].type
 		var neighbor_type = grid[room_pos + direction].type
 		
-		# Trata 'start' como 'normal' para a lógica.
 		if current_room_type == "start": current_room_type = "normal"
 		if neighbor_type == "start": neighbor_type = "normal"
 
-		var door_type_to_load = "normal" # O padrão é uma porta normal.
+		var door_type_to_load = "normal"
 		if current_room_type != "normal":
 			door_type_to_load = current_room_type
 		elif neighbor_type != "normal":
 			door_type_to_load = neighbor_type
 		
-		# 3. Pega um template de porta aleatório do tipo correto.
-		if not door_templates.has(door_type_to_load) or door_templates[door_type_to_load].is_empty():
-			print("AVISO: Nenhum template de porta encontrado para o tipo '", door_type_to_load, "'. Usando 'normal'.")
+		# --- LÓGICA DE SELEÇÃO DE PORTA ATUALIZADA ---
+		var door_template: PackedScene = null
+		if door_templates.has(door_type_to_load):
+			var templates_by_level = door_templates[door_type_to_load]
+			# Prioridade 1: Tenta pegar uma porta do nível atual
+			if templates_by_level.has(level_number) and not templates_by_level[level_number].is_empty():
+				door_template = templates_by_level[level_number].pick_random()
+			# Prioridade 2: Tenta pegar uma porta "qualquer nível" (chave 0)
+			elif templates_by_level.has(0) and not templates_by_level[0].is_empty():
+				door_template = templates_by_level[0].pick_random()
+
+		# Se ainda assim não encontrou, usa um fallback para porta normal
+		if not door_template:
+			print("AVISO: Nenhum template de porta encontrado para '", door_type_to_load, "'. Usando 'normal'.")
 			door_type_to_load = "normal"
+			if door_templates["normal"].has(level_number):
+				door_template = door_templates["normal"][level_number].pick_random()
+			elif door_templates["normal"].has(0):
+				door_template = door_templates["normal"][0].pick_random()
 		
-		var door_template: PackedScene = door_templates[door_type_to_load].pick_random()
-		
-		# 4. Instancia e configura a porta.
+		if not door_template:
+			print("ERRO CRÍTICO: Não foi possível encontrar NENHUM template de porta.")
+			continue # Pula a criação desta porta
+
+		# ... (o resto da função, instanciando e conectando, continua igual) ...
 		var door_instance = door_template.instantiate()
 		door_instance.transform = placeholder.transform
 		door_instance.direction = direction
-
-		# 5. Conecta o sinal.
 		door_instance.player_entered.connect(Callable(self, "_on_player_changed_room").bind(room_pos))
-		
-		# 6. Adiciona a porta à cena e remove o placeholder.
 		placeholders_node.add_child(door_instance)
 		placeholder.queue_free()
 
@@ -302,52 +314,63 @@ func update_minimap():
 	#    minimap_ui.update_room_icon(pos, room_info.is_visited, is_adjacent)
 
 func _load_room_templates_from_path():
-	all_boss_room_templates.clear()
-	all_shop_room_templates.clear()
-	all_item_room_templates.clear()
+	start_room_templates.clear()
 	normal_room_templates.clear()
+	boss_room_templates.clear()
+	item_room_templates.clear()
+	
 	var dir = DirAccess.open(rooms_path)
 	if dir:
 		dir.list_dir_begin()
 		var file_name = dir.get_next()
 		while file_name != "":
-			# Verifica se o arquivo é uma cena e não um diretório
 			if not dir.current_is_dir() and file_name.ends_with(".tscn"):
-				# Monta o caminho completo do arquivo
 				var full_path = rooms_path.path_join(file_name)
-				var parts = file_name.split("_")
-				# parts ex: "sala_normal_01.tscn" -> ["sala", "normal", "01.tscn"]
-				if parts.size() < 2:
-					print("AVISO: Arquivo de sala com nome inválido, pulando: ", file_name)
+				var base_name = file_name.get_basename()
+				var parts = base_name.split("_")
+				
+				if parts.size() < 3:
 					file_name = dir.get_next()
 					continue
+				
 				var room_type = parts[1]
+				
+				if room_type == "shop":
+					shop_room_template = load(full_path) as PackedScene
+					file_name = dir.get_next()
+					continue
+
+				if parts.size() < 4 or not parts[parts.size() - 1].is_valid_int():
+					print("AVISO: Sala '", base_name, "' pulada. Falta sufixo de nível. (Exceto para a loja)")
+					file_name = dir.get_next()
+					continue
+
+				var level_suffix = parts[parts.size() - 1].to_int()
 				var loaded_scene = load(full_path) as PackedScene
-				# Adiciona a cena carregada à variável correta
+
+				# --- LÓGICA DE ARMAZENAMENTO PADRONIZADA ---
 				match room_type:
 					"start":
-						start_room_template = loaded_scene
+						# AGORA a sala inicial também é guardada em um Array
+						if not start_room_templates.has(level_suffix):
+							start_room_templates[level_suffix] = []
+						start_room_templates[level_suffix].append(loaded_scene)
 					"normal":
-						normal_room_templates.append(loaded_scene)
+						if not normal_room_templates.has(level_suffix):
+							normal_room_templates[level_suffix] = []
+						normal_room_templates[level_suffix].append(loaded_scene)
 					"boss":
-						all_boss_room_templates.append(loaded_scene)
-					"shop":
-						all_shop_room_templates.append(loaded_scene)
+						if not boss_room_templates.has(level_suffix):
+							boss_room_templates[level_suffix] = []
+						boss_room_templates[level_suffix].append(loaded_scene)
 					"item":
-						all_item_room_templates.append(loaded_scene)
+						if not item_room_templates.has(level_suffix):
+							item_room_templates[level_suffix] = []
+						item_room_templates[level_suffix].append(loaded_scene)
+			
 			file_name = dir.get_next()
-		if not all_boss_room_templates.is_empty():
-			boss_room_template = all_boss_room_templates.pick_random()
-			print("Template de Boss sorteado: ", boss_room_template.resource_path)
 		
-		if not all_shop_room_templates.is_empty():
-			shop_room_template = all_shop_room_templates.pick_random()
-			print("Template de Shop sorteado: ", shop_room_template.resource_path)
-		
-		if not all_item_room_templates.is_empty():
-			item_room_template = all_item_room_templates.pick_random()
-			print("Template de Item sorteado: ", item_room_template.resource_path)
-		print("Carregados %d templates de salas normais." % normal_room_templates.size())
+		print("Templates de salas carregados.")
 	else:
 		print("ERRO: Não foi possível encontrar o diretório de salas: ", rooms_path)
 
@@ -359,10 +382,10 @@ func _load_door_templates_from_path():
 		var file_name = dir.get_next()
 		while file_name != "":
 			if not dir.current_is_dir() and file_name.ends_with(".tscn"):
-				# Ex: "porta_boss_00.tscn" -> parts = ["porta", "boss", "00.tscn"]
-				var parts = file_name.get_basename().split("_")
-				if parts.size() < 2:
-					print("AVISO: Arquivo de porta com nome inválido: ", file_name)
+				var base_name = file_name.get_basename()
+				var parts = base_name.split("_")
+				
+				if parts.size() < 3:
 					file_name = dir.get_next()
 					continue
 				
@@ -370,24 +393,44 @@ func _load_door_templates_from_path():
 				var full_path = doors_path.path_join(file_name)
 				var loaded_scene = load(full_path) as PackedScene
 				
-				# Garante que a chave existe no dicionário
+				# --- LÓGICA CORRIGIDA ---
+				var level_suffix = 0 # 0 = serve para qualquer nível (padrão para portas especiais)
+				# Apenas portas normais têm sufixo de nível
+				if door_type == "normal" and parts.size() >= 4 and parts[parts.size() - 1].is_valid_int():
+					level_suffix = parts[parts.size() - 1].to_int()
+
 				if not door_templates.has(door_type):
-					door_templates[door_type] = []
+					door_templates[door_type] = {}
+				if not door_templates[door_type].has(level_suffix):
+					door_templates[door_type][level_suffix] = []
 				
-				door_templates[door_type].append(loaded_scene)
+				door_templates[door_type][level_suffix].append(loaded_scene)
 				
 			file_name = dir.get_next()
 		print("Templates de portas carregados: ", door_templates.keys())
 	else:
 		print("ERRO: Não foi possível encontrar o diretório de portas: ", doors_path)
 
+
 func _randomize_special_room_templates():
-	# Sorteia um template de cada lista mestra e o define para o andar atual
-	if not all_boss_room_templates.is_empty():
-		boss_room_template = all_boss_room_templates.pick_random()
+	# Sorteia um template de cada lista mestra usando a nova função auxiliar
+	# e salva na variável SINGULAR correta.
+	start_room_template = _find_best_template(start_room_templates)
+	boss_room_template = _find_best_template(boss_room_templates)
+	item_room_template = _find_best_template(item_room_templates)
+	# A sala da loja não muda e já foi carregada no _load
 	
-	if not all_shop_room_templates.is_empty():
-		shop_room_template = all_shop_room_templates.pick_random()
+func _find_best_template(template_dict: Dictionary) -> PackedScene:
+	"""
+	Encontra o melhor template em um dicionário de templates baseado no level_number.
+	Procura pelo nível atual, depois por níveis inferiores até o nível 0.
+	"""
+	var level = level_number
+	# Loop para procurar do nível atual para baixo até 0
+	while level >= 0:
+		if template_dict.has(level):
+			return template_dict[level].pick_random()
+		level -= 1
 	
-	if not all_item_room_templates.is_empty():
-		item_room_template = all_item_room_templates.pick_random()
+	# Se não encontrou absolutamente nada, retorna nulo
+	return null
