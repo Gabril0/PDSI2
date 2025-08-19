@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=4 uid="uid://18wv7lk5pnc7"]
+[gd_scene load_steps=8 format=4 uid="uid://18wv7lk5pnc7"]
 
 [ext_resource type="Script" uid="uid://cy23a631tcr4j" path="res://scripts/RoomInfo.gd" id="1_d2tcv"]
 [ext_resource type="Texture2D" uid="uid://gxg5sbtec73j" path="res://assets/tboi/rooms.png" id="2_w3iuc"]
+[ext_resource type="PackedScene" uid="uid://j6w5gsr1y5le" path="res://Entity/Enemies/Failex.tscn" id="3_w3iuc"]
+[ext_resource type="PackedScene" uid="uid://cmepc2ajo2pmw" path="res://Entity/Enemies/Ghost.tscn" id="4_bbfam"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dv1ka"]
 texture = ExtResource("2_w3iuc")
@@ -171,6 +173,11 @@ texture = ExtResource("2_w3iuc")
 physics_layer_0/collision_layer = 1
 sources/1 = SubResource("TileSetAtlasSource_dv1ka")
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_bbfam"]
+vertices = PackedVector2Array(1625.82, -96.0703, 1724.06, 1031.71, -432.719, 976.25, -403.258, -111.922)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-413, -122, -443, 986, 1735, 1042, 1635, -106)])
+
 [node name="SalaBase" type="Node2D"]
 
 [node name="RoomInfo" type="Node" parent="." node_paths=PackedStringArray("doors")]
@@ -206,3 +213,16 @@ rotation = -4.71239
 scale = Vector2(8, 8)
 
 [node name="EnemySpawns" type="Node2D" parent="."]
+
+[node name="Failex" parent="EnemySpawns" instance=ExtResource("3_w3iuc")]
+position = Vector2(-388, 12)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="EnemySpawns"]
+position = Vector2(-627, -503)
+navigation_polygon = SubResource("NavigationPolygon_bbfam")
+
+[node name="Failex2" parent="EnemySpawns" instance=ExtResource("4_bbfam")]
+position = Vector2(-702, -248)
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+radius = 254.5

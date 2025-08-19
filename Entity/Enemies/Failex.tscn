@@ -3,8 +3,7 @@
 [ext_resource type="Script" uid="uid://blhjhtrrvm1th" path="res://Entity/Enemies/failex.gd" id="1_3iu30"]
 [ext_resource type="PackedScene" uid="uid://cfvkpiynkvnc5" path="res://Entity/Particles/BloodParticles.tscn" id="2_3iu30"]
 [ext_resource type="PackedScene" uid="uid://t6o6kldtptl4" path="res://Entity/Particles/DeathParticles.tscn" id="3_0075t"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_dxd66"]
+[ext_resource type="Texture2D" uid="uid://bftw221gjt1he" path="res://Entity/Enemies/Sprites/Sprite 146236.png" id="4_21p2n"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pvthx"]
 
@@ -12,12 +11,15 @@
 script = ExtResource("1_3iu30")
 ray = NodePath("RayCast2D")
 nav = NodePath("NavigationAgent2D")
+speed = 400.0
 hit_particles = ExtResource("2_3iu30")
 death_particles = ExtResource("3_0075t")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(95.98, 95.98)
-texture = SubResource("PlaceholderTexture2D_dxd66")
+scale = Vector2(5, 5)
+texture = ExtResource("4_21p2n")
+hframes = 4
+vframes = 3
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 avoidance_enabled = true

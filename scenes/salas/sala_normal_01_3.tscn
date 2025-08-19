@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=4 uid="uid://dkp5k585gjio1"]
+[gd_scene load_steps=7 format=4 uid="uid://dkp5k585gjio1"]
 
 [ext_resource type="Script" uid="uid://cy23a631tcr4j" path="res://scripts/RoomInfo.gd" id="1_m7f4w"]
 [ext_resource type="Texture2D" uid="uid://gxg5sbtec73j" path="res://assets/tboi/rooms.png" id="2_l3two"]
+[ext_resource type="PackedScene" uid="uid://j6w5gsr1y5le" path="res://Entity/Enemies/Failex.tscn" id="3_l3two"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_iqryd"]
 texture = ExtResource("2_l3two")
@@ -186,6 +187,11 @@ texture = ExtResource("2_l3two")
 physics_layer_0/collision_layer = 1
 sources/1 = SubResource("TileSetAtlasSource_iqryd")
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_t7w5n"]
+vertices = PackedVector2Array(1625.82, -96.0703, 1724.06, 1031.71, -432.719, 976.25, -403.258, -111.922)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-413, -122, -443, 986, 1735, 1042, 1635, -106)])
+
 [node name="SalaBase" type="Node2D"]
 
 [node name="RoomInfo" type="Node" parent="." node_paths=PackedStringArray("doors")]
@@ -221,3 +227,10 @@ rotation = -4.71239
 scale = Vector2(8, 8)
 
 [node name="EnemySpawns" type="Node2D" parent="."]
+
+[node name="Failex" parent="EnemySpawns" instance=ExtResource("3_l3two")]
+position = Vector2(-388, 54)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="EnemySpawns"]
+position = Vector2(-627, -461)
+navigation_polygon = SubResource("NavigationPolygon_t7w5n")

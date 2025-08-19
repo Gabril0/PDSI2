@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://cmepc2ajo2pmw"]
+
+[ext_resource type="Script" uid="uid://blhjhtrrvm1th" path="res://Entity/Enemies/failex.gd" id="1_luslx"]
+[ext_resource type="PackedScene" uid="uid://cfvkpiynkvnc5" path="res://Entity/Particles/BloodParticles.tscn" id="2_3bx1g"]
+[ext_resource type="PackedScene" uid="uid://t6o6kldtptl4" path="res://Entity/Particles/DeathParticles.tscn" id="3_ef64q"]
+[ext_resource type="Texture2D" uid="uid://cty58poi75eo" path="res://Entity/Enemies/Sprites/Candler The Binding of Isaac Rebirth.png" id="4_luslx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pvthx"]
+
+[node name="Failex" type="CharacterBody2D" node_paths=PackedStringArray("ray", "nav")]
+script = ExtResource("1_luslx")
+ray = NodePath("RayCast2D")
+nav = NodePath("NavigationAgent2D")
+hit_particles = ExtResource("2_3bx1g")
+death_particles = ExtResource("3_ef64q")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(5, 5)
+texture = ExtResource("4_luslx")
+hframes = 8
+vframes = 3
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+avoidance_enabled = true
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(0, 200)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(4.82, 4.82)
+shape = SubResource("RectangleShape2D_pvthx")

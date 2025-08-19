@@ -48,11 +48,11 @@ func move_to_target(target_pos: Vector2):
 	nav.target_position = target_pos
 	if nav.is_navigation_finished():
 		velocity = Vector2.ZERO
-		move_and_slide()
 	else:
 		var next_point = nav.get_next_path_position()
 		velocity = (next_point - global_position).normalized() * speed
 		nav.set_velocity(velocity)
+	move_and_slide()
 
 func _on_velocity_computed(safe_velocity: Vector2):
 	velocity = safe_velocity
