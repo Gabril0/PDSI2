@@ -5,6 +5,7 @@ extends Control
 @onready var email_input = $CenterContainer/VBoxContainer/Email
 @onready var senha_input = $CenterContainer/VBoxContainer/Senha  
 @onready var login_button = $CenterContainer/VBoxContainer/Button
+@onready var signup_button = $CenterContainer/VBoxContainer/Button2 
 
 func _ready():
 	
@@ -12,6 +13,10 @@ func _ready():
 	
 	if login_button:
 		login_button.pressed.connect(_on_login_button_pressed)
+		
+	if signup_button:
+		signup_button.pressed.connect(_on_signup_button_pressed)
+		
 	
 	# Conecta ao sistema de API para receber resposta do login
 	if not API.is_connected("login_completed", _on_login_completed):
@@ -51,6 +56,13 @@ func _on_login_button_pressed():
 	print("Tentando fazer login com:", email)
 	API.login(email, senha)
 
+func _on_signup_button_pressed():
+	
+	if API.is_connected("login_completed", _on_login_completed):
+		API.disconnect("login_completed", _on_login_completed)
+	
+	get_tree().change_scene_to_file("res://Cadastro.tscn")
+
 func _on_login_completed(success: bool, player_data):
 	login_button.disabled = false
 	
@@ -69,6 +81,7 @@ func _go_to_main_menu():
 		API.disconnect("login_completed", _on_login_completed)
 	
 	get_tree().change_scene_to_file("res://MainMenu.tscn")
+
 
 func _show_message(message: String, color: Color):
 

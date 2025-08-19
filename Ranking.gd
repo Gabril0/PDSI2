@@ -71,7 +71,6 @@ func _clear_ranking_list():
 		child.queue_free()
 
 func _on_ranking_received(ranking_data):
-	"""Callback chamado quando a API retorna os dados do ranking"""
 	_clear_ranking_list()
 	
 	if ranking_data == null or not ranking_data.has("ranking"):
@@ -125,7 +124,7 @@ func _create_week_info_section(ranking_data):
 	
 	# Informação da seed
 	var seed_label = Label.new()
-	seed_label.text = "Seed: " + str(ranking_data.get("seed", "N/A"))
+	seed_label.text = "Seed: " + str(int(str(ranking_data.get("seed", "N/A"))))
 	seed_label.add_theme_color_override("font_color", Color.LIGHT_BLUE)
 	seed_label.add_theme_font_size_override("font_size", 16)
 	seed_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER

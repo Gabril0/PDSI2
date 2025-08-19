@@ -82,11 +82,8 @@ func carregar_dados_jogador():
 
 #Processamento de respostas HTTP
 func _on_request_completed(result, response_code, headers, body):
-	print("Resposta recebida! Código: ", response_code)
-	print("Tipo da requisição: ", current_request_type)
-	
+
 	var json = JSON.parse_string(body.get_string_from_utf8())
-	print("Resposta JSON: ", json)
 	
 	match current_request_type:
 		"login":
@@ -104,12 +101,15 @@ func _on_request_completed(result, response_code, headers, body):
 
 func _handle_login_response(result, response_code, headers, body, json):
 	if response_code == 200:
+
 		# Armazenamento dos dados nas globais
 		jogador_id = json["id"]
 		jogador_nickname = json["nickname"]
 		print("Login OK! Jogador:", jogador_nickname)
+
 		# dados salvos locais
 		salvar_dados_jogador(jogador_id, jogador_nickname)
+
 		# Emite signal para outras cenas
 		login_completed.emit(true, {"id": jogador_id, "nickname": jogador_nickname})
 	else:
@@ -117,6 +117,7 @@ func _handle_login_response(result, response_code, headers, body, json):
 		login_completed.emit(false, null)
 
 func _handle_register_response(result, response_code, headers, body, json):
+
 	if response_code == 200:
 		print("Registro OK! Jogador criado:", json.get("nickname", ""))
 		register_completed.emit(true, json)
