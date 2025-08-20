@@ -1,7 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://b2qiisetodswb"]
+[gd_scene load_steps=6 format=3 uid="uid://b2qiisetodswb"]
 
 [ext_resource type="PackedScene" uid="uid://4eg2njkuphmh" path="res://Entity/Enemies/Dummy.tscn" id="1_ghswv"]
 [ext_resource type="PackedScene" uid="uid://cnnl8e0e5chcs" path="res://Entity/Player/Player.tscn" id="2_clfm6"]
+[ext_resource type="PackedScene" uid="uid://j6w5gsr1y5le" path="res://Entity/Enemies/Failex.tscn" id="3_clfm6"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_clfm6"]
+vertices = PackedVector2Array(1625.82, -96.0703, 1724.06, 1031.71, -432.719, 976.25, -403.258, -111.922)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-413, -122, -443, 986, 1735, 1042, 1635, -106)])
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_clfm6"]
 
 [node name="EnemyTest" type="Node2D"]
 
@@ -10,3 +18,65 @@ position = Vector2(952, 439)
 
 [node name="Player" parent="." instance=ExtResource("2_clfm6")]
 position = Vector2(573, 403)
+
+[node name="Failex" parent="." instance=ExtResource("3_clfm6")]
+position = Vector2(66, 422)
+speed = 100.0
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+position = Vector2(-173, -93)
+navigation_polygon = SubResource("NavigationPolygon_clfm6")
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+position = Vector2(380, 437)
+radius = 93.37
+affect_navigation_mesh = true
+
+[node name="Sprite2D" type="Sprite2D" parent="NavigationObstacle2D"]
+scale = Vector2(82.3, 82.3)
+texture = SubResource("PlaceholderTexture2D_clfm6")
+
+[node name="NavigationObstacle2D2" type="NavigationObstacle2D" parent="."]
+position = Vector2(380, 345)
+radius = 93.37
+affect_navigation_mesh = true
+
+[node name="Sprite2D" type="Sprite2D" parent="NavigationObstacle2D2"]
+scale = Vector2(82.3, 82.3)
+texture = SubResource("PlaceholderTexture2D_clfm6")
+
+[node name="NavigationObstacle2D3" type="NavigationObstacle2D" parent="."]
+position = Vector2(380, 257)
+radius = 93.37
+affect_navigation_mesh = true
+
+[node name="Sprite2D" type="Sprite2D" parent="NavigationObstacle2D3"]
+scale = Vector2(82.3, 82.3)
+texture = SubResource("PlaceholderTexture2D_clfm6")
+
+[node name="NavigationObstacle2D4" type="NavigationObstacle2D" parent="."]
+position = Vector2(380, 170)
+radius = 93.37
+affect_navigation_mesh = true
+
+[node name="Sprite2D" type="Sprite2D" parent="NavigationObstacle2D4"]
+scale = Vector2(82.3, 82.3)
+texture = SubResource("PlaceholderTexture2D_clfm6")
+
+[node name="NavigationObstacle2D5" type="NavigationObstacle2D" parent="."]
+position = Vector2(380, 87)
+radius = 93.37
+affect_navigation_mesh = true
+
+[node name="Sprite2D" type="Sprite2D" parent="NavigationObstacle2D5"]
+scale = Vector2(82.3, 82.3)
+texture = SubResource("PlaceholderTexture2D_clfm6")
+
+[node name="NavigationObstacle2D6" type="NavigationObstacle2D" parent="."]
+position = Vector2(380, 6)
+radius = 93.37
+affect_navigation_mesh = true
+
+[node name="Sprite2D" type="Sprite2D" parent="NavigationObstacle2D6"]
+scale = Vector2(82.3, 82.3)
+texture = SubResource("PlaceholderTexture2D_clfm6")

@@ -17,8 +17,9 @@ func update_animation(velocity : Vector2, attack_direction : Vector2) -> void:
 		head_animation.play(animation_name)
 	
 	if torso_animation:
+		if attack_direction != Vector2.ZERO:
+			animation_name = "attack_" + regular_direction
 		torso_animation.play(animation_name)
-	
 	if legs_animation:
 		legs_animation.play(legs_animation_name)
 

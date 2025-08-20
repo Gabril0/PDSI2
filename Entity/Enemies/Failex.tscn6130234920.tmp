@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://j6w5gsr1y5le"]
+
+[ext_resource type="Script" uid="uid://m5d5meiewujn" path="res://Entity/Enemies/object_follow_behaviour.gd" id="1_pvthx"]
+
+[sub_resource type="GDScript" id="GDScript_pvthx"]
+script/source = "extends Node
+
+@export var follow_behaviour : ObjectFollowBehaviour
+
+func _ready():
+	follow_behaviour.object = 
+"
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_dxd66"]
+
+[node name="Failex" type="Node2D"]
+script = SubResource("GDScript_pvthx")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("PlaceholderTexture2D_dxd66")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." node_paths=PackedStringArray("nav")]
+script = ExtResource("1_pvthx")
+nav = NodePath(".")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]

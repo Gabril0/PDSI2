@@ -1,22 +1,95 @@
-[gd_scene load_steps=4 format=3 uid="uid://drw3g2ky0s32e"]
+[gd_scene load_steps=7 format=3 uid="uid://drw3g2ky0s32e"]
 
-[ext_resource type="Script" uid="uid://bxgakwnua77iw" path="res://Projectiles/projectile.gd" id="1_lgxlk"]
+[ext_resource type="Script" uid="uid://b3gxoncp87s5a" path="res://Projectiles/Projectile.gd" id="1_lgxlk"]
+[ext_resource type="Texture2D" uid="uid://bg7uxev6g3klo" path="res://Projectiles/test_proj.png" id="2_eje5u"]
+[ext_resource type="Script" uid="uid://dbk6xd833lx00" path="res://AuxScripts/trail_renderer.gd" id="2_i710n"]
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_lgxlk"]
+[sub_resource type="Curve" id="Curve_eje5u"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.215909, 1), 0.0, 0.0, 0, 0, Vector2(0.931818, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_i710n"]
+[sub_resource type="Gradient" id="Gradient_eje5u"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.446667)
+colors = PackedColorArray(0.913725, 0.913725, 0.913725, 1, 0.843137, 0.192157, 0.541176, 1)
 
-[node name="Area2D" type="Area2D" groups=["projectile"]]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eje5u"]
+size = Vector2(27, 77.5)
+
+[node name="Area2D" type="Area2D" node_paths=PackedStringArray("sprite") groups=["projectile"]]
 scale = Vector2(0.1, 0.1)
 script = ExtResource("1_lgxlk")
-range = 500.0
+range = 1.0
+momentum_boost = 2.5
+sprite = NodePath("Sprite2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-z_index = 10
+z_index = 2
 z_as_relative = false
-scale = Vector2(0.1, 0.1)
-texture = SubResource("NoiseTexture2D_lgxlk")
+texture_filter = 1
+scale = Vector2(20, 20)
+texture = ExtResource("2_eje5u")
+
+[node name="Lines" type="Node2D" parent="Sprite2D"]
+scale = Vector2(0.05, 0.05)
+
+[node name="Line2D2" type="Line2D" parent="Sprite2D/Lines" node_paths=PackedStringArray("target")]
+position = Vector2(-250, -820)
+script = ExtResource("2_i710n")
+target = NodePath(".")
+trail_fade_time = 0.25
+start_width = 1.0
+end_width = 8.0
+start_color = Color(0.913725, 0.74902, 0.807843, 0)
+end_color = Color(0.999994, 0.2747, 0.456014, 0.211765)
+
+[node name="Line2D" type="Line2D" parent="Sprite2D/Lines" node_paths=PackedStringArray("target")]
+position = Vector2(150, -50)
+script = ExtResource("2_i710n")
+target = NodePath(".")
+trail_fade_time = 0.25
+start_width = 1.0
+end_width = 8.0
+start_color = Color(0.913725, 0.74902, 0.807843, 0.0901961)
+end_color = Color(0.913725, 0, 0.356863, 0.321569)
+
+[node name="Line2D5" type="Line2D" parent="Sprite2D/Lines" node_paths=PackedStringArray("target")]
+position = Vector2(-250, 710)
+script = ExtResource("2_i710n")
+target = NodePath(".")
+trail_fade_time = 0.25
+start_width = 1.0
+end_width = 8.0
+start_color = Color(0.913725, 0.74902, 0.807843, 0)
+end_color = Color(0.999994, 0.2747, 0.456014, 0.211765)
+
+[node name="HitParticles" type="CPUParticles2D" parent="Sprite2D"]
+z_index = 2
+emitting = false
+amount = 50
+lifetime = 0.6
+one_shot = true
+preprocess = 0.01
+explosiveness = 1.0
+randomness = 0.47
+lifetime_randomness = 0.67
+local_coords = true
+emission_shape = 3
+emission_rect_extents = Vector2(0.01, 20)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 40.4
+initial_velocity_max = 131.31
+angular_velocity_min = -322.93
+angular_velocity_max = 348.81
+scale_amount_min = 5.0
+scale_amount_max = 5.0
+scale_amount_curve = SubResource("Curve_eje5u")
+color_initial_ramp = SubResource("Gradient_eje5u")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2(2.559, 2.559)
-shape = SubResource("CircleShape2D_i710n")
+position = Vector2(-10, -65)
+scale = Vector2(20, 20)
+shape = SubResource("RectangleShape2D_eje5u")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -1,6 +1,7 @@
 class_name Player
 extends Entity
 @onready var animation_handler : PlayerAnimationHandler = $Visuals
+var itemPassiveDecorator
 
 func _init() -> void:
 	super._init()
@@ -30,7 +31,7 @@ func movement_input_check() -> void:
 
 func attack_input_check() -> void:
 	attackDirection = Vector2.ZERO
-	
+		
 	if Input.is_action_pressed("AimRight"):
 		attackDirection.x += 1
 	if Input.is_action_pressed("AimLeft"):

@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="PDSI2"
-run/main_scene="uid://cnnl8e0e5chcs"
+run/main_scene="uid://b2qiisetodswb"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+LevelManager="*res://scripts/LevelManager.gd"
 
 [dotnet]
 

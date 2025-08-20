@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://j6w5gsr1y5le"]
+
+[ext_resource type="Script" uid="uid://blhjhtrrvm1th" path="res://Entity/Enemies/failex.gd" id="1_3iu30"]
+[ext_resource type="PackedScene" uid="uid://cfvkpiynkvnc5" path="res://Entity/Particles/BloodParticles.tscn" id="2_3iu30"]
+[ext_resource type="PackedScene" uid="uid://t6o6kldtptl4" path="res://Entity/Particles/DeathParticles.tscn" id="3_0075t"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_dxd66"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pvthx"]
+
+[node name="Failex" type="CharacterBody2D" node_paths=PackedStringArray("ray", "nav")]
+script = ExtResource("1_3iu30")
+ray = NodePath("RayCast2D")
+nav = NodePath("NavigationAgent2D")
+hit_particles = ExtResource("2_3iu30")
+death_particles = ExtResource("3_0075t")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(95.98, 95.98)
+texture = SubResource("PlaceholderTexture2D_dxd66")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+avoidance_enabled = true
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(0, 200)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(4.82, 4.82)
+shape = SubResource("RectangleShape2D_pvthx")

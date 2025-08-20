@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://drw3g2ky0s32e"]
+
+[ext_resource type="Script" uid="uid://b3gxoncp87s5a" path="res://Projectiles/Projectile.gd" id="1_lgxlk"]
+[ext_resource type="Texture2D" uid="uid://bg7uxev6g3klo" path="res://Projectiles/test_proj.png" id="2_eje5u"]
+[ext_resource type="Script" uid="uid://dbk6xd833lx00" path="res://AuxScripts/trail_renderer.gd" id="2_i710n"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eje5u"]
+size = Vector2(80, 30)
+
+[node name="Area2D" type="Area2D" node_paths=PackedStringArray("sprite") groups=["projectile"]]
+scale = Vector2(0.1, 0.1)
+script = ExtResource("1_lgxlk")
+range = 1.0
+momentum_boost = 2.5
+sprite = NodePath("Sprite2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 10
+z_as_relative = false
+texture_filter = 1
+scale = Vector2(20, 20)
+texture = ExtResource("2_eje5u")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-3.57628e-06, -5)
+scale = Vector2(20, 20)
+shape = SubResource("RectangleShape2D_eje5u")
+
+[node name="Line2D" type="Line2D" parent="." node_paths=PackedStringArray("target")]
+script = ExtResource("2_i710n")
+target = NodePath("..")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
