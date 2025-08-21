@@ -16,14 +16,12 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(-413, -122, -443, 986, 
 [node name="Dummy" parent="." instance=ExtResource("1_ghswv")]
 position = Vector2(952, 439)
 
-[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="Dummy"]
-radius = 72.29
-
 [node name="Player" parent="." instance=ExtResource("2_clfm6")]
 position = Vector2(573, 403)
 
 [node name="Failex" parent="." instance=ExtResource("3_clfm6")]
 position = Vector2(66, 422)
+can_fly = null
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 position = Vector2(-173, -93)

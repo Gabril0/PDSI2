@@ -10,6 +10,7 @@ var ignore_group : String = ""
 @export var momentum_boost : float = 2.25
 @export var sprite : Sprite2D
 var last_positions : Array[Vector2]
+var caster : Node2D
 
 var _elapsed_time : float = 0.0
 var initial_momentum : Vector2 = Vector2.ZERO
@@ -17,7 +18,7 @@ var momentum_decay : float = 0.98
 @onready var original_scale : Vector2 = scale
 @onready var particles_end : CPUParticles2D = $Sprite2D/HitParticles
 	
-func init(_speed:float, _damage:float, _range:float, _direction : Vector2, _ignore_group: String, pos : Vector2, caster_velocity : Vector2) -> void:
+func init(_speed:float, _damage:float, _range:float, _direction : Vector2, _ignore_group: String, pos : Vector2, caster_velocity : Vector2, _caster: Node2D) -> void:
 	speed = _speed
 	damage = _damage
 	range = _range
@@ -26,6 +27,7 @@ func init(_speed:float, _damage:float, _range:float, _direction : Vector2, _igno
 	direction = _direction
 	initial_momentum = caster_velocity
 	original_scale = scale
+	caster = _caster
 
 func _process(delta: float) -> void:
 	initial_momentum *= momentum_decay
@@ -64,7 +66,7 @@ func _on_body_entered(body):
 
 	if not body.is_in_group(ignore_group):
 		if body is Entity:
-			body.take_damage(damage)
+			body.take_damage(damage, caster)
 		end_projectile()
 		
 func check_side(direc : Vector2):

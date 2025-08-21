@@ -7,9 +7,9 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pvthx"]
 
-[node name="Failex" type="CharacterBody2D" node_paths=PackedStringArray("ray", "nav")]
+[node name="Failex" type="CharacterBody2D" node_paths=PackedStringArray("nav")]
 script = ExtResource("1_3iu30")
-ray = NodePath("RayCast2D")
+vision_distance = 250.0
 nav = NodePath("NavigationAgent2D")
 speed = 400.0
 hit_particles = ExtResource("2_3iu30")
