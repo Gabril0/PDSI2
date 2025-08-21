@@ -494,9 +494,10 @@ acceleration_force = 100.0
 shape = SubResource("CapsuleShape2D_l2ndj")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(0.75, 0.75)
+zoom = Vector2(0.6, 0.6)
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
+editor_draw_limits = true
 
 [node name="Visuals" type="Node2D" parent="." node_paths=PackedStringArray("head_animation", "torso_animation", "legs_animation")]
 script = ExtResource("2_vk8em")

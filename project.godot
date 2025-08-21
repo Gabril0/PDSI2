@@ -19,6 +19,12 @@ config/icon="res://icon.svg"
 
 LevelManager="*res://scripts/LevelManager.gd"
 
+[display]
+
+window/size/viewport_width=1093
+window/size/viewport_height=614
+window/stretch/mode="viewport"
+
 [dotnet]
 
 project/assembly_name="PDSI2"

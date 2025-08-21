@@ -3,7 +3,7 @@ extends Enemy
 
 @export var vision_distance: float = 300.0
 @export var memory_time: float = 2.0
-@export var ray: RayCast2D
+@export var squarecast: Area2D
 @export var nav: NavigationAgent2D
 
 @export var target_group: String = "player"
