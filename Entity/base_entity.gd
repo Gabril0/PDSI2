@@ -17,58 +17,49 @@ extends CharacterBody2D
 
 # Knockback properties
 var knockback_vector: Vector2 = Vector2.ZERO
-@export var knockback_strength: float = 200.0
+@export var knockback_strength: float = 5000.0
 @export var knockback_friction: float = 5.0
 
 var direction : Vector2
 var attackDirection : Vector2
 
 # Control flag
-var canMove: bool = true
+var can_move: bool = true
 
 func _init() -> void:
 	direction = Vector2.ZERO
 	attackDirection = Vector2.ZERO
 
-func move(delta : float) -> void:
-	if not canMove:
-		if knockback_vector.length() > 0:
-			velocity = knockback_vector
-			knockback_vector = knockback_vector.move_toward(Vector2.ZERO, knockback_friction * delta)
-		move_and_slide()
-		return
+func move(delta: float) -> void:
+	var friction: float = velocity.length() * friction_force
+	var acceleration: float = speed * acceleration_force
+	if can_move:
+		if direction != Vector2.ZERO:
+			velocity += direction.normalized() * acceleration * delta
+			if velocity.length() > speed:
+				velocity = velocity.normalized() * speed
+		else:
+			velocity = velocity.move_toward(Vector2.ZERO, friction)
 
-	var friction : float = velocity.length() * friction_force
-	var acceleration : float = speed * acceleration_force
-	
-	if velocity.length() < speed:
-		velocity += delta * direction * acceleration
-	velocity += friction * -velocity.normalized()
 
-	if knockback_vector.length() > 0:
-		velocity += knockback_vector * delta
-		knockback_vector = knockback_vector.move_toward(Vector2.ZERO, knockback_friction * delta)
-	
 	move_and_slide()
+
+
 
 func take_damage(amount: int, attacker: Node2D) -> void:
 	health -= amount
-	
 	var knockback_dir = (global_position - attacker.global_position).normalized()
 	knockback_vector = knockback_dir * knockback_strength
-	
-	canMove = false
-	await _apply_knockback()
+	velocity += knockback_vector
+	can_move = false
+	move_and_slide()
 	
 	hit_effect()
 	
 	if health <= 0:
 		die()
-
-func _apply_knockback() -> void:
-	while knockback_vector.length() > 1:
-		await get_tree().process_frame
-	canMove = true
+	await get_tree().create_timer(1.0).timeout
+	can_move = true
 
 func hit_effect() -> void:
 	var sprites : Array[Sprite2D] = get_all_sprite2d_children(self)

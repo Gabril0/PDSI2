@@ -22,23 +22,22 @@ func _ready():
 	vision_loop()
 
 func _process(delta: float) -> void:
-	print(follow_object)
-	if follow_object:
-		if memory_timer > 0:
-			memory_timer -= delta
-			last_seen_position = follow_object.global_position
-			move_to_target(last_seen_position)
+	if can_move:
+		if follow_object:
+			if memory_timer > 0:
+				memory_timer -= delta
+				last_seen_position = follow_object.global_position
+				move_to_target(last_seen_position)
+			else:
+				follow_object = null
+				velocity = Vector2.ZERO
+				move_and_slide()
 		else:
-			follow_object = null
-			velocity = Vector2.ZERO
-			move_and_slide()
-	else:
-		# Patrol logic
-		if patrol_timer <= 0:
-			_start_random_patrol()
-		else:
-			patrol_timer -= delta
-			move_to_target(patrol_target)
+			if patrol_timer <= 0:
+				_start_random_patrol()
+			else:
+				patrol_timer -= delta
+				move_to_target(patrol_target)
 
 func vision_loop() -> void:
 	while true:
