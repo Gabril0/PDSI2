@@ -49,16 +49,31 @@ func move(delta: float) -> void:
 func take_damage(amount: int, attacker: Node2D) -> void:
 	health -= amount
 	var knockback_dir = (global_position - attacker.global_position).normalized()
-	knockback_vector = knockback_dir * knockback_strength
-	velocity += knockback_vector
-	can_move = false
-	move_and_slide()
+	
+	apply_knockback(knockback_dir)
 	
 	hit_effect()
 	
 	if health <= 0:
 		die()
-	await get_tree().create_timer(1.0).timeout
+
+
+func apply_knockback(direction: Vector2) -> void:
+	can_move = false
+	var knockback_velocity = direction * knockback_strength * 5
+	var duration := 0.25
+	var elapsed := 0.0
+	
+	while elapsed < duration:
+		var delta = get_process_delta_time()
+		elapsed += delta
+		
+		velocity += knockback_velocity * delta
+		knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO, knockback_friction * delta)
+		
+		move_and_slide()
+		await get_tree().process_frame
+	
 	can_move = true
 
 func hit_effect() -> void:
