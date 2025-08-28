@@ -17,7 +17,7 @@ extends CharacterBody2D
 
 # Knockback properties
 var knockback_vector: Vector2 = Vector2.ZERO
-@export var knockback_strength: float = 5000.0
+@export var knockback_strength: float = 50000.0
 @export var knockback_friction: float = 5.0
 
 var direction : Vector2
@@ -46,8 +46,8 @@ func move(delta: float) -> void:
 
 
 
-func take_damage(amount: int, attacker: Node2D) -> void:
-	health -= amount
+func take_damage(ammount: int, attacker: Node2D) -> void:
+	health -= ammount
 	var knockback_dir = (global_position - attacker.global_position).normalized()
 	
 	apply_knockback(knockback_dir)
@@ -60,15 +60,14 @@ func take_damage(amount: int, attacker: Node2D) -> void:
 
 func apply_knockback(direction: Vector2) -> void:
 	can_move = false
-	var knockback_velocity = direction * knockback_strength * 5
+	var knockback_velocity = direction * knockback_strength
 	var duration := 0.25
 	var elapsed := 0.0
 	
 	while elapsed < duration:
 		var delta = get_process_delta_time()
 		elapsed += delta
-		
-		velocity += knockback_velocity * delta
+		velocity += (knockback_velocity * delta) *( 1 - (elapsed/duration))
 		knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO, knockback_friction * delta)
 		
 		move_and_slide()

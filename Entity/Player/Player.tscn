@@ -1,9 +1,11 @@
-[gd_scene load_steps=36 format=3 uid="uid://cnnl8e0e5chcs"]
+[gd_scene load_steps=38 format=3 uid="uid://cnnl8e0e5chcs"]
 
 [ext_resource type="Script" uid="uid://celklpbsbe88" path="res://Entity/Player/Player.gd" id="1_3qydi"]
+[ext_resource type="PackedScene" uid="uid://cfvkpiynkvnc5" path="res://Entity/Particles/BloodParticles.tscn" id="2_mxhgp"]
 [ext_resource type="Script" uid="uid://bypl4gfnk18rb" path="res://Entity/Player/player_attack.gd" id="2_q3lat"]
 [ext_resource type="Script" uid="uid://dckss14af1ery" path="res://Entity/Player/player_animation_handler.gd" id="2_vk8em"]
 [ext_resource type="Texture2D" uid="uid://c1wcse6jbmvla" path="res://Entity/Player/head.png" id="2_wu0n7"]
+[ext_resource type="PackedScene" uid="uid://t6o6kldtptl4" path="res://Entity/Particles/DeathParticles.tscn" id="3_awppf"]
 [ext_resource type="PackedScene" uid="uid://drw3g2ky0s32e" path="res://Projectiles/Projectile.tscn" id="3_rj2x4"]
 [ext_resource type="Texture2D" uid="uid://sc26ftap8ce" path="res://Entity/Player/chest.png" id="3_vk8em"]
 [ext_resource type="Texture2D" uid="uid://brbnewe5tsn5u" path="res://Entity/Player/legs.png" id="6_3xy24"]
@@ -489,6 +491,9 @@ attack_range = 1.0
 speed = 600.0
 friction_force = 0.1
 acceleration_force = 100.0
+hit_particles = ExtResource("2_mxhgp")
+death_particles = ExtResource("3_awppf")
+knockback_strength = 5000.0
 
 [node name="Collider" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_l2ndj")

@@ -7,7 +7,7 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pvthx"]
 
-[node name="Failex" type="CharacterBody2D" node_paths=PackedStringArray("nav")]
+[node name="Failex" type="CharacterBody2D" node_paths=PackedStringArray("nav") groups=["enemy"]]
 script = ExtResource("1_3iu30")
 vision_distance = 250.0
 nav = NodePath("NavigationAgent2D")
