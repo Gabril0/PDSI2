@@ -24,6 +24,18 @@ position = Vector2(573, 403)
 
 [node name="Failex" parent="." instance=ExtResource("3_clfm6")]
 position = Vector2(66, 422)
+memory_time = null
+target_group = null
+can_fly = null
+health = null
+damage = null
+attack_range = null
+attack_speed = null
+projectile_speed = null
+friction_force = null
+acceleration_force = null
+knockback_strength = null
+knockback_friction = null
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 position = Vector2(-173, -93)

@@ -43,7 +43,7 @@ func vision_loop() -> void:
 	while true:
 		var hits: Array[Dictionary] = raycast.circle_cast(global_position, vision_distance)
 		for hit in hits:
-			var collider = hit.collider
+			var collider : CollisionObject2D = hit.collider
 			if collider.is_in_group(target_group):
 				follow_object = collider
 				memory_timer = memory_time
@@ -71,7 +71,7 @@ func take_damage(ammount : int, attacker: Node2D) -> void:
 	super.take_damage(ammount, attacker)
 	var hits: Array[Dictionary] = raycast.circle_cast(global_position, vision_distance * 100)
 	for hit in hits:
-		var collider = hit.collider
+		var collider : CollisionObject2D = hit.collider
 		if collider.is_in_group(target_group):
 			follow_object = collider
 			memory_timer = memory_time
