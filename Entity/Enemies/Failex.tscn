@@ -10,22 +10,10 @@
 [node name="Failex" type="CharacterBody2D" node_paths=PackedStringArray("nav") groups=["enemy"]]
 script = ExtResource("1_3iu30")
 vision_distance = 250.0
-memory_time = null
 nav = NodePath("NavigationAgent2D")
-target_group = null
-can_fly = null
-health = null
-damage = null
-attack_range = null
-attack_speed = null
 speed = 400.0
-projectile_speed = null
-friction_force = null
-acceleration_force = null
 hit_particles = ExtResource("2_3iu30")
 death_particles = ExtResource("3_0075t")
-knockback_strength = null
-knockback_friction = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(5, 5)

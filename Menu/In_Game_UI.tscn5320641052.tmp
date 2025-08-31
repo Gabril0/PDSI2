@@ -1,0 +1,38 @@
+[gd_scene load_steps=8 format=3 uid="uid://cnnb4uiw7tm3j"]
+
+[ext_resource type="Script" uid="uid://d11fjcpl5oo2q" path="res://Menu/in_game_ui.gd" id="1_8vws0"]
+
+[sub_resource type="Gradient" id="Gradient_8vws0"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_d6rrr"]
+gradient = SubResource("Gradient_8vws0")
+fill_from = Vector2(0.593137, 0.632353)
+
+[sub_resource type="Gradient" id="Gradient_7tw62"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rkglp"]
+gradient = SubResource("Gradient_7tw62")
+
+[sub_resource type="Gradient" id="Gradient_ows47"]
+colors = PackedColorArray(0.827451, 0.576471, 0.552941, 1, 0.494118, 0.65098, 0.65098, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_neper"]
+gradient = SubResource("Gradient_ows47")
+
+[node name="InGameUI" type="CanvasLayer" node_paths=PackedStringArray("life_bar")]
+script = ExtResource("1_8vws0")
+life_bar = NodePath("Lifebar/LifeBar")
+
+[node name="Lifebar" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="LifeBar" type="TextureProgressBar" parent="Lifebar"]
+offset_right = 256.0
+offset_bottom = 64.0
+texture_under = SubResource("GradientTexture2D_d6rrr")
+texture_over = SubResource("GradientTexture2D_rkglp")
+texture_progress = SubResource("GradientTexture1D_neper")
+texture_progress_offset = Vector2(0.91, 0)

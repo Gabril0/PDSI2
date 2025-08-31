@@ -19,12 +19,14 @@ func _init() -> void:
 	super._init()
 	direction = Vector2.ZERO
 	attackDirection = Vector2.ZERO
+	
 
 
 func _ready() -> void:
 	for s in sprite_nodes:
 		original_materials[s] = s.material
-
+	
+	InGameUi.update_life_bar(health, max_health)
 	invulnerability_timer = Timer.new()
 	invulnerability_timer.one_shot = true
 	invulnerability_timer.wait_time = invulnerability_time
@@ -59,7 +61,7 @@ func take_damage(amount: int, attacker: Node2D) -> void:
 		return
 	
 	super.take_damage(amount, attacker)
-
+	InGameUi.update_life_bar(health, max_health)
 	is_invulnerable = true
 	flash_on = false
 	flash_timer.start()

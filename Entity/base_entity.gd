@@ -9,6 +9,8 @@ extends CharacterBody2D
 @export var speed : float = 200.0
 @export var projectile_speed : float = 800.0
 
+var max_health : int
+
 # Movement properties
 @export var friction_force : float = 0.05
 @export var acceleration_force : float = 0.1
@@ -29,6 +31,7 @@ var can_move: bool = true
 func _init() -> void:
 	direction = Vector2.ZERO
 	attackDirection = Vector2.ZERO
+	max_health = health
 
 func move(delta: float) -> void:
 	var friction: float = velocity.length() * friction_force
