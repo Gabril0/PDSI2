@@ -5,6 +5,9 @@ class_name Item
 @export var icon : Sprite2D
 @export var description: String
 
+func _init() -> void:
+	print("please implement on floor exit")
+	
 func on_attack() -> void:
 	pass
 	
@@ -20,21 +23,16 @@ func on_projectile_process() -> void:
 func on_hit() -> void:
 	pass
 
-func on_move() -> void:
-	pass
-
 func on_die() -> void:
 	pass
 
 func on_floor_exit() -> void:
 	pass
-	
 
 func activate() -> void:
-	# Restructure this:
-	# You can have passive items for player and for projectiles
-	# Items can happen at events, like on hit, on shoot, etc
-	# all the itens effects should run on a behaviour stack
-	
-	# The player should have a behaviour loop and action calls
 	pass
+	
+func _on_body_entered(body):
+	if body.is_in_group("player"):
+		var player : Player = body as Player
+		player.add_item(self)

@@ -22,6 +22,8 @@ func DirectionCheck() -> void:
 		currentAttackDirection = Vector2(0,1)
 
 func shoot_projectile() -> void:
+	for item in player.items:
+		item.on_attack()
 	DirectionCheck()
 	if projectile_scene == null:
 		print("Projectile scene is missing!")

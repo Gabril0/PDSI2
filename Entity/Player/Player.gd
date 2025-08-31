@@ -5,7 +5,7 @@ extends Entity
 
 @onready var sprite_nodes: Array[Sprite2D] = get_sprite_nodes()
 
-var itemPassiveDecorator
+var items : Array[Item]
 var is_invulnerable : bool = false
 var invulnerability_time : float = 1.0
 var invulnerability_timer : Timer
@@ -41,6 +41,8 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	for item in items:
+		item.on_process()
 	movement_input_check()
 	attack_input_check()
 	animation_handler.update_animation(direction, attackDirection)
@@ -48,7 +50,7 @@ func _process(delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	move(delta)
-
+	
 	for i in get_slide_collision_count():
 		var collision = get_slide_collision(i)
 		var body = collision.get_collider() if collision else null
@@ -57,6 +59,9 @@ func _physics_process(delta: float) -> void:
 
 
 func take_damage(amount: int, attacker: Node2D) -> void:
+	for item in items:
+		item.on_hit()
+		
 	if is_invulnerable:
 		return
 	
@@ -145,3 +150,11 @@ func _collect_sprites(node: Node, arr: Array[Sprite2D]) -> void:
 		if child is Sprite2D:
 			arr.append(child)
 		_collect_sprites(child, arr)
+		
+func add_item(item : Item) -> void:
+	items.append(item)
+	
+func die() -> void:
+	for item in items:
+		item.on_die()
+	super.die()

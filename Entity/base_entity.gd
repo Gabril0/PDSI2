@@ -34,6 +34,7 @@ func _init() -> void:
 	max_health = health
 
 func move(delta: float) -> void:
+	
 	var friction: float = velocity.length() * friction_force
 	var acceleration: float = speed * acceleration_force
 	if can_move:

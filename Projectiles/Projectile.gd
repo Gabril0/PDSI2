@@ -17,6 +17,7 @@ var initial_momentum : Vector2 = Vector2.ZERO
 var momentum_decay : float = 0.98
 @onready var original_scale : Vector2 = scale
 @onready var particles_end : CPUParticles2D = $Sprite2D/HitParticles
+var caster_is_player : bool
 	
 func init(_speed:float, _damage:float, _range:float, _direction : Vector2, _ignore_group: String, pos : Vector2, caster_velocity : Vector2, _caster: Node2D) -> void:
 	speed = _speed
@@ -28,8 +29,14 @@ func init(_speed:float, _damage:float, _range:float, _direction : Vector2, _igno
 	initial_momentum = caster_velocity
 	original_scale = scale
 	caster = _caster
+	if caster is Player:
+		caster_is_player = true
 
 func _process(delta: float) -> void:
+	if caster_is_player:
+		for item in caster.items:
+			item.on_projectile_process()
+	
 	initial_momentum *= momentum_decay
 	if direction.dot(initial_momentum.normalized()) < 0:
 		initial_momentum = - direction.normalized() * 3
@@ -54,6 +61,9 @@ func _process(delta: float) -> void:
 		end_projectile()
 		
 func end_projectile() -> void:
+	if caster_is_player:
+		for item in caster.items:
+			item.on_projectile_end()
 	var p = particles_end.duplicate()
 	get_tree().root.add_child(p)
 	p.scale = Vector2(1,1)
