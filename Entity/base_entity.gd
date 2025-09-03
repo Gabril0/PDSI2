@@ -124,6 +124,9 @@ func get_all_sprite2d_children(parent_node) -> Array[Sprite2D]:
 		sprites += get_all_sprite2d_children(child)
 	return sprites
 
+func heal(heal_value : int) -> void:
+	health = clamp(health + heal_value, 0, max_health)
+
 func die() -> void:
 	var lerp_progress : float = 0
 	var og_scale : Vector2 = scale

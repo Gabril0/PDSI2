@@ -13,8 +13,8 @@ var last_positions : Array[Vector2]
 var caster : Node2D
 
 var _elapsed_time : float = 0.0
-var initial_momentum : Vector2 = Vector2.ZERO
-var momentum_decay : float = 0.98
+var momentum : Vector2 = Vector2.ZERO
+@export var momentum_decay : float = 0.98 # Decaimento do momentum por frame
 @onready var original_scale : Vector2 = scale
 @onready var particles_end : CPUParticles2D = $Sprite2D/HitParticles
 var caster_is_player : bool
@@ -26,7 +26,7 @@ func init(_speed:float, _damage:float, _range:float, _direction : Vector2, _igno
 	ignore_group = _ignore_group
 	position = pos
 	direction = _direction
-	initial_momentum = caster_velocity
+	momentum = caster_velocity
 	original_scale = scale
 	caster = _caster
 	if caster is Player:
@@ -36,21 +36,20 @@ func _process(delta: float) -> void:
 	if caster_is_player:
 		for item in caster.items:
 			item.on_projectile_process()
-	
-	initial_momentum *= momentum_decay
-	if direction.dot(initial_momentum.normalized()) < 0:
-		initial_momentum = - direction.normalized() * 3
-	if initial_momentum == Vector2.ZERO:
-		initial_momentum = Vector2(0.001,0.001)
-	var total_velocity : Vector2 = direction.normalized() * speed + initial_momentum * momentum_boost
+
+	momentum *= momentum_decay
+	if momentum.dot(direction) < 0:
+		momentum = Vector2.ZERO
+
+	var total_velocity : Vector2 = direction.normalized() * speed + momentum * momentum_boost
 	var movement : Vector2 = total_velocity * delta
 	check_side(movement.normalized())
 	position += movement
 	_elapsed_time += delta
-	
+
 	if _elapsed_time <= range * 0.25:
 		scale = lerp(Vector2.ZERO, original_scale, _elapsed_time / (range * 0.25))
-	
+
 	if _elapsed_time >= range * 0.9:
 		position.y += decay_ammount * delta / range
 	if _elapsed_time >= range * 0.8:

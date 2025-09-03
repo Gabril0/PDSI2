@@ -72,6 +72,9 @@ func take_damage(amount: int, attacker: Node2D) -> void:
 	flash_timer.start()
 	invulnerability_timer.start()
 
+func heal(health_value : int) -> void:
+	super.heal(health_value)
+	InGameUi.update_life_bar(health, max_health)
 
 func _on_invulnerability_timer_timeout() -> void:
 	is_invulnerable = false

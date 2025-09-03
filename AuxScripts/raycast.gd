@@ -2,6 +2,7 @@ class_name Raycast
 extends Node2D
 
 @export var visualize: bool = true
+@export var visualization_color : Color = Color(0,0,1,0.3)
 
 var _debug_draw: Array[Callable] = []
 
@@ -22,7 +23,7 @@ func circle_cast(position: Vector2, radius: float, max_results: int = 32) -> Arr
 	var results = space_state.intersect_shape(query, max_results)
 
 	if visualize:
-		_debug_draw.append(func(): draw_circle(to_local(position), radius, Color(0,1,0,0.3)))
+		_debug_draw.append(func(): draw_circle(to_local(position), radius, visualization_color))
 
 	return results
 
@@ -42,7 +43,7 @@ func square_cast(position: Vector2, extents: Vector2, rotation: float = 0.0, max
 	if visualize:
 		_debug_draw.append(func():
 			var local_pos = to_local(position)
-			draw_rect(Rect2(local_pos - extents, extents * 2), Color(0,0,1,0.3), false, 2.0)
+			draw_rect(Rect2(local_pos - extents, extents * 2), visualization_color, false, 2.0)
 		)
 
 	return results
@@ -57,7 +58,7 @@ func ray_cast(from: Vector2, to: Vector2, collide_with_areas := true, collide_wi
 	var result: Dictionary = space_state.intersect_ray(query)
 
 	if visualize:
-		_debug_draw.append(func(): draw_line(to_local(from), to_local(to), Color(1,0,0,0.6), 2.0))
+		_debug_draw.append(func(): draw_line(to_local(from), to_local(to), visualization_color, 2.0))
 
 	return result
 
