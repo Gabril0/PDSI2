@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://b42cuxxf8jnq6"]
+
+[ext_resource type="Script" uid="uid://c3wducxkv5gi4" path="res://Item/Tier 1/patient_shoes.gd" id="1_nobtm"]
+[ext_resource type="Texture2D" uid="uid://cp18hbnrfvte7" path="res://icon.svg" id="2_a68xi"]
+
+[node name="Patient`sShoes" type="Node2D"]
+script = ExtResource("1_nobtm")
+i_name = "Patient`s Shoes"
+icon = ExtResource("2_a68xi")
+description = "Regular slippers that makeyou a bit faster"

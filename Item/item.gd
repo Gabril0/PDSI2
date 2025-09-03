@@ -2,12 +2,11 @@ extends Node
 class_name Item
 
 @export var i_name : String
-@export var icon : Sprite2D
+@export var icon : Texture
 @export var description: String
 
-func _init() -> void:
-	print("please implement on floor exit")
-	
+var player_ref : Player
+
 func on_attack() -> void:
 	pass
 	
@@ -31,8 +30,3 @@ func on_floor_exit() -> void:
 
 func activate() -> void:
 	pass
-	
-func _on_body_entered(body):
-	if body.is_in_group("player"):
-		var player : Player = body as Player
-		player.add_item(self)

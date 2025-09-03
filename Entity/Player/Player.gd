@@ -153,6 +153,7 @@ func _collect_sprites(node: Node, arr: Array[Sprite2D]) -> void:
 		
 func add_item(item : Item) -> void:
 	items.append(item)
+	item.activate()
 	
 func die() -> void:
 	for item in items:

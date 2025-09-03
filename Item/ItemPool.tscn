@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://cai4wbyvxclbi"]
+
+[ext_resource type="Script" uid="uid://cynab42xegx0a" path="res://Item/item_pool.gd" id="1_2saoj"]
+[ext_resource type="PackedScene" uid="uid://b42cuxxf8jnq6" path="res://Item/Tier 1/Patient`s Shoes.tscn" id="2_gfdjr"]
+
+[node name="ItemPool" type="Node2D"]
+script = ExtResource("1_2saoj")
+tier1_items = Array[PackedScene]([ExtResource("2_gfdjr"), ExtResource("2_gfdjr")])

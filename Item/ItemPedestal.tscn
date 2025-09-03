@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://copt50vuhp81e"]
+
+[ext_resource type="Texture2D" uid="uid://cp18hbnrfvte7" path="res://icon.svg" id="1_2t2oh"]
+[ext_resource type="Script" uid="uid://dch5taxkmsy0m" path="res://Item/item_pedestal.gd" id="1_7iujq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7iujq"]
+
+[node name="ItemPedestal" type="Area2D" node_paths=PackedStringArray("visuals")]
+script = ExtResource("1_7iujq")
+visuals = NodePath("Sprite2D")
+pedestal_tier = null
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(6.62, 6.62)
+shape = SubResource("CircleShape2D_7iujq")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_2t2oh")

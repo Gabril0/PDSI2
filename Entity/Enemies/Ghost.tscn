@@ -7,9 +7,8 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pvthx"]
 
-[node name="Failex" type="CharacterBody2D" node_paths=PackedStringArray("ray", "nav")]
+[node name="Failex" type="CharacterBody2D" node_paths=PackedStringArray("nav")]
 script = ExtResource("1_luslx")
-ray = NodePath("RayCast2D")
 nav = NodePath("NavigationAgent2D")
 hit_particles = ExtResource("2_3bx1g")
 death_particles = ExtResource("3_ef64q")

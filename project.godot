@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 LevelManager="*res://scripts/LevelManager.gd"
 InGameUi="*res://Menu/In_Game_UI.tscn"
+ItemPool="*res://Item/ItemPool.tscn"
 
 [display]
 
