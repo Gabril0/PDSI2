@@ -47,7 +47,7 @@ func login(email: String, senha: String):
 		"email": email,
 		"password": senha
 	}
-	post_json("http://localhost:8000/login", data, "login")
+	post_json("http://localhost:8001/login", data, "login")
 
 func cadastrar(email: String, senha: String, nickname: String):
 	var data = {
@@ -55,7 +55,7 @@ func cadastrar(email: String, senha: String, nickname: String):
 		"password": senha,
 		"nickname": nickname
 	}
-	post_json("http://localhost:8000/register", data, "register")
+	post_json("http://localhost:8001/register", data, "register")
 
 
 #Funções para gerenciar os dados do jogador
@@ -158,13 +158,13 @@ func _handle_ranking_response(result, response_code, headers, body, json):
 
 #Funções para busca (nome de cada uma é explicativo)
 func buscar_seed():
-	get_request("http://localhost:8000/seed", "seed")
+	get_request("http://localhost:8001/seed", "seed")
 
 func buscar_ranking_atual():
-	get_request("http://localhost:8000/ranking/current", "ranking")
+	get_request("http://localhost:8001/ranking/current", "ranking")
 
 func buscar_ranking_semana(semana: String):
-	var url = "http://localhost:8000/ranking?week=" + semana
+	var url = "http://localhost:8001/ranking?week=" + semana
 	get_request(url, "ranking")
 
 func enviar_score(player_id: int, seed: int, tempo: int):
@@ -173,4 +173,4 @@ func enviar_score(player_id: int, seed: int, tempo: int):
 		"seed": seed,
 		"time_seconds": tempo
 	}
-	post_json("http://localhost:8000/ranking", data, "score")
+	post_json("http://localhost:8001/ranking", data, "score")
