@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://cws30stjsjwvc"]
+
+[ext_resource type="Script" uid="uid://cefw4xtitjcna" path="res://Entity/Enemies/bone_shooter.gd" id="1_vc4kk"]
+[ext_resource type="PackedScene" uid="uid://cfvkpiynkvnc5" path="res://Entity/Particles/BloodParticles.tscn" id="2_oxotf"]
+[ext_resource type="PackedScene" uid="uid://drw3g2ky0s32e" path="res://Projectiles/Projectile.tscn" id="2_t0kfw"]
+[ext_resource type="Texture2D" uid="uid://bftw221gjt1he" path="res://Entity/Enemies/Sprites/Sprite 146236.png" id="4_6jxnh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pvthx"]
+
+[node name="BoneShooter" type="CharacterBody2D" node_paths=PackedStringArray("visuals", "nav") groups=["enemy"]]
+script = ExtResource("1_vc4kk")
+projectile_scene = ExtResource("2_t0kfw")
+visuals = NodePath("Sprite2D")
+nav = NodePath("NavigationAgent2D")
+hit_particles = ExtResource("2_oxotf")
+death_particles = ExtResource("2_oxotf")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(5, 5)
+texture = ExtResource("4_6jxnh")
+hframes = 4
+vframes = 3
+frame = 6
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+avoidance_enabled = true
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(0, 200)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(4.82, 4.82)
+shape = SubResource("RectangleShape2D_pvthx")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://cnnb4uiw7tm3j"]
+[gd_scene load_steps=7 format=3 uid="uid://cnnb4uiw7tm3j"]
 
 [ext_resource type="Script" uid="uid://d11fjcpl5oo2q" path="res://Menu/in_game_ui.gd" id="1_8vws0"]
 [ext_resource type="Texture2D" uid="uid://bmotsln1o0ewc" path="res://Menu/UI/Lifebar.png" id="2_d6rrr"]
@@ -14,6 +14,16 @@ shader_parameter/border_softness = 0.1
 shader_parameter/progress = 1.0
 shader_parameter/end_curve = 0.6
 shader_parameter/flash_color = Vector4(1, 1, 1, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rkglp"]
+shader = ExtResource("2_rkglp")
+shader_parameter/speed = 2.0
+shader_parameter/strength = 0.03
+shader_parameter/frequency = 8.0
+shader_parameter/border_softness = 0.1
+shader_parameter/progress = 1.0
+shader_parameter/end_curve = 0.6
+shader_parameter/flash_color = Vector4(1, 0, 0, 0)
 
 [node name="InGameUI" type="CanvasLayer" node_paths=PackedStringArray("life_bar", "blood", "old_bar")]
 script = ExtResource("1_8vws0")
@@ -42,6 +52,7 @@ stretch_margin_right = 85
 texture_progress = ExtResource("3_7tw62")
 
 [node name="Old" type="TextureProgressBar" parent="Lifebar"]
+material = SubResource("ShaderMaterial_rkglp")
 layout_mode = 0
 offset_left = 27.0
 offset_top = 10.0

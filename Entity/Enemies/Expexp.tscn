@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://cbwuawxbhb7ae"]
+
+[ext_resource type="Script" uid="uid://bo6kkltkmnyh7" path="res://Entity/Enemies/expexp.gd" id="1_dtndu"]
+[ext_resource type="PackedScene" uid="uid://cfvkpiynkvnc5" path="res://Entity/Particles/BloodParticles.tscn" id="2_1222k"]
+[ext_resource type="PackedScene" uid="uid://t6o6kldtptl4" path="res://Entity/Particles/DeathParticles.tscn" id="3_h1ych"]
+[ext_resource type="Texture2D" uid="uid://bftw221gjt1he" path="res://Entity/Enemies/Sprites/Sprite 146236.png" id="4_y0uo2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pvthx"]
+
+[node name="Expexp" type="CharacterBody2D" node_paths=PackedStringArray("nav") groups=["enemy"]]
+script = ExtResource("1_dtndu")
+vision_distance = 400.0
+nav = NodePath("NavigationAgent2D")
+health = 30
+hit_particles = ExtResource("2_1222k")
+death_particles = ExtResource("3_h1ych")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(5, 5)
+texture = ExtResource("4_y0uo2")
+hframes = 4
+vframes = 3
+frame = 3
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+avoidance_enabled = true
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(0, 200)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(4.82, 4.82)
+shape = SubResource("RectangleShape2D_pvthx")

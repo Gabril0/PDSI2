@@ -18,6 +18,5 @@ func die() -> void:
 		var collider : CollisionObject2D = hit.collider
 		if collider.is_in_group("player"):
 			var player : Player = collider as Player
-			print("hello", death_healing_radius - (position - player.position).length())
-			player.heal(death_healing_radius - (position - player.position).length())
+			player.heal((death_healing_radius - (position - player.position).length()) / 10)
 	super.die()
