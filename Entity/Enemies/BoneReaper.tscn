@@ -1,4 +1,9 @@
-extends ObjectFollowBehaviour
+[gd_scene load_steps=4 format=3 uid="uid://b7scxq15ruxnr"]
+
+[ext_resource type="Texture2D" uid="uid://bftw221gjt1he" path="res://Entity/Enemies/Sprites/Sprite 146236.png" id="4_rkvs7"]
+
+[sub_resource type="GDScript" id="GDScript_7qcpg"]
+script/source = "extends ObjectFollowBehaviour
 
 @export var projectile_scene : PackedScene
 @export var attack_cooldown : float = 3
@@ -27,21 +32,21 @@ func attack() -> void:
 	await get_tree().create_timer(attack_indication).timeout
 	
 	if projectile_scene == null:
-		print("Projectile scene is missing!")
+		print(\"Projectile scene is missing!\")
 	else:
 		var projectileObj = projectile_scene.instantiate()
 		var projectile : Projectile = projectileObj
+		get_tree().root.add_child(projectile)
 		projectile.init(
 			projectile_speed,
 			damage,
 			attack_range,
 			(follow_object.position - position).normalized(),
-			"enemy",
+			\"enemy\",
 			global_position,
 			velocity,
 			self
 		)
-		get_tree().root.add_child(projectile)
 	
 	# Wait cooldown before being able to attack again
 	await get_tree().create_timer(attack_cooldown).timeout
@@ -52,8 +57,8 @@ func _do_attack_animation() -> void:
 	var timer := get_tree().create_timer(attack_indication)
 	
 	while timer.time_left > 0:
-		velocity = Vector2.ZERO
 		can_move = false
+		velocity = Vector2.ZERO
 		visuals.scale.x = og_scale.x + clamp(1 + 0.5 * sin(animation_indication_progress), 0.5, 1.5)
 		visuals.modulate = lerp(Color(1,1,1,1), Color(1,0,0,1), animation_indication_progress)
 		animation_indication_progress += get_process_delta_time()
@@ -62,3 +67,26 @@ func _do_attack_animation() -> void:
 	# Reset after animation
 	visuals.scale = og_scale
 	visuals.modulate = Color(1,1,1,1)
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pvthx"]
+
+[node name="BoneReaper" type="CharacterBody2D" groups=["enemy"]]
+script = SubResource("GDScript_7qcpg")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(5, 5)
+texture = ExtResource("4_rkvs7")
+hframes = 4
+vframes = 3
+frame = 6
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+avoidance_enabled = true
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(0, 200)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(4.82, 4.82)
+shape = SubResource("RectangleShape2D_pvthx")
