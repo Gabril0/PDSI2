@@ -9,7 +9,7 @@
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_owitj")
-items_for_sale = Array[ExtResource("2_2icer")]([ExtResource("3_0ove6"), ExtResource("4_c6qty"), ExtResource("3_0ove6")])
+level_1_items = Array[ExtResource("2_2icer")]([ExtResource("3_0ove6"), ExtResource("4_c6qty")])
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1

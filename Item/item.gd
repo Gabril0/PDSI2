@@ -3,7 +3,7 @@ class_name Item
 
 @export var i_name : String = "Novo Item"
 @export var description: String = "Descricao do item"
-@export var price: int = 0 #Preco
+@export var price: int = 0 
 @export var icon : Texture2D
 
 

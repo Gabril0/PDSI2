@@ -9,3 +9,5 @@ script = ExtResource("1_bn3w3")
 [node name="MapaContainer" type="Node2D" parent="."]
 
 [node name="Player" parent="." instance=ExtResource("2_bn3w3")]
+
+[node name="UILayer" type="CanvasLayer" parent="."]

@@ -1,11 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://cj3gjmj1goyq5"]
+[gd_scene load_steps=5 format=3 uid="uid://cj3gjmj1goyq5"]
 
 [ext_resource type="Script" uid="uid://cy23a631tcr4j" path="res://scripts/RoomInfo.gd" id="1_5gbfv"]
+[ext_resource type="Script" uid="uid://bfi6c03lk03t7" path="res://scenes/salas/ShopRoom.gd" id="1_dujww"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5ul40"]
 size = Vector2(298, 196)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dujww"]
+
 [node name="SalaBase" type="Node2D"]
+script = ExtResource("1_dujww")
 
 [node name="RoomInfo" type="Node" parent="." node_paths=PackedStringArray("doors")]
 script = ExtResource("1_5gbfv")
@@ -76,3 +80,11 @@ metadata/_edit_use_anchors_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RoomBoundary"]
 shape = SubResource("RectangleShape2D_5ul40")
+
+[node name="PlayerDetector" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetector"]
+shape = SubResource("RectangleShape2D_dujww")
+
+[connection signal="body_entered" from="PlayerDetector" to="." method="_on_player_detector_body_entered"]
+[connection signal="body_exited" from="PlayerDetector" to="." method="_on_player_detector_body_exited"]

@@ -13,6 +13,11 @@ layout_mode = 2
 size_flags_vertical = 3
 stretch_mode = 5
 
+[node name="NameLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Nome"
+horizontal_alignment = 1
+
 [node name="PriceLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 text = "0 Moedas."
