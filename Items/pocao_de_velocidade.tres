@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://buy6puk4a3n46"]
+
+[ext_resource type="Script" uid="uid://c0ck6657wa8eh" path="res://Item/item.gd" id="1_0mi5t"]
+[ext_resource type="Texture2D" uid="uid://cp18hbnrfvte7" path="res://icon.svg" id="1_d2wk2"]
+
+[resource]
+script = ExtResource("1_0mi5t")
+i_name = "Poção de velocidade"
+description = "Essa poção irá aumentar a velocidade do seu personagem."
+price = 5
+icon = ExtResource("1_d2wk2")
+metadata/_custom_type_script = "uid://c0ck6657wa8eh"

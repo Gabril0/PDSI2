@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://bkb62snwrbm0c"]
+
+[ext_resource type="Script" uid="uid://c0ck6657wa8eh" path="res://Item/item.gd" id="1_a3fmk"]
+[ext_resource type="Texture2D" uid="uid://cp18hbnrfvte7" path="res://icon.svg" id="1_nkghw"]
+
+[resource]
+script = ExtResource("1_a3fmk")
+i_name = "Pocao de Vida"
+description = "Essa poção irá aumentar a vida do personagem."
+price = 1
+icon = ExtResource("1_nkghw")
+metadata/_custom_type_script = "uid://c0ck6657wa8eh"

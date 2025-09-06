@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://dtboe2e448byu"]
+
+[ext_resource type="Script" uid="uid://dwx7eea1lttf" path="res://scenes/shop_ui.gd" id="1_owitj"]
+[ext_resource type="Script" uid="uid://c0ck6657wa8eh" path="res://Item/item.gd" id="2_2icer"]
+[ext_resource type="Resource" uid="uid://buy6puk4a3n46" path="res://Items/pocao_de_velocidade.tres" id="3_0ove6"]
+[ext_resource type="Resource" uid="uid://bkb62snwrbm0c" path="res://Items/pocao_de_vida.tres" id="4_c6qty"]
+
+[node name="ShopUi" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_owitj")
+items_for_sale = Array[ExtResource("2_2icer")]([ExtResource("3_0ove6"), ExtResource("4_c6qty"), ExtResource("3_0ove6")])
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="Panel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 4
