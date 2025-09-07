@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dig5x8m1cj6rj"]
+[gd_scene load_steps=4 format=3 uid="uid://dig5x8m1cj6rj"]
 
 [ext_resource type="Script" uid="uid://knlr68rhqjbc" path="res://scripts/Mundo.gd" id="1_bn3w3"]
 [ext_resource type="PackedScene" uid="uid://cnnl8e0e5chcs" path="res://Entity/Player/Player.tscn" id="2_bn3w3"]
+[ext_resource type="PackedScene" uid="uid://ddq4gdjvx5bj0" path="res://scenes/ui/PlayerHUD.tscn" id="3_pu1qo"]
 
 [node name="Mundo" type="Node2D"]
 script = ExtResource("1_bn3w3")
@@ -11,3 +12,5 @@ script = ExtResource("1_bn3w3")
 [node name="Player" parent="." instance=ExtResource("2_bn3w3")]
 
 [node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="PlayerHud" parent="UILayer" instance=ExtResource("3_pu1qo")]

@@ -1,7 +1,7 @@
 extends Node2D
 
 #Pré-Carrega a cena na UI da Loja
-const ShopUIScene = preload("res://scenes/ShopUI.tscn")
+const ShopUIScene = preload("res://scenes/ui/ShopUI.tscn")
 
 var shop_instance = null
 

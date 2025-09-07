@@ -7,9 +7,11 @@ extends Node
 
 signal coins_updated(new_amout: int) #Vei ser emitido sempre que a quant de moedas mudar
 
-var coins: int = 10
+signal inventory_updated(new_inventory: Dictionary)
 
-var inventory: Array[Item] #guardar os itens
+var coins: int = 50
+
+var inventory: Dictionary = {}
 
 func can_afford(amount: int) -> bool:
 	return coins >= amount
@@ -26,7 +28,12 @@ func remove_money(amount: int) -> void:
 		print("Moedas debitadas. Total agora: ", coins)
 		
 func add_item(item_resource: Item) -> void:
-	inventory.append(item_resource)
+	if inventory.has(item_resource):
+		inventory[item_resource] += 1
+	else:
+		inventory[item_resource] = 1
+	
 	print("Item ", item_resource.i_name, "adicionado ao inventario")
+	inventory_updated.emit(inventory)
 
 ##Esse script vai ser um autoload

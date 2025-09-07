@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://4eg2njkuphmh" path="res://Entity/Enemies/Dummy.tscn" id="1_ghswv"]
 [ext_resource type="PackedScene" uid="uid://cnnl8e0e5chcs" path="res://Entity/Player/Player.tscn" id="2_clfm6"]
 [ext_resource type="PackedScene" uid="uid://j6w5gsr1y5le" path="res://Entity/Enemies/Failex.tscn" id="3_clfm6"]
-[ext_resource type="PackedScene" uid="uid://dtboe2e448byu" path="res://scenes/ShopUI.tscn" id="4_jj8s1"]
+[ext_resource type="PackedScene" uid="uid://dtboe2e448byu" path="res://scenes/ui/ShopUI.tscn" id="4_jj8s1"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_clfm6"]
 vertices = PackedVector2Array(1625.82, -96.0703, 1724.06, 1031.71, -432.719, 976.25, -403.258, -111.922)

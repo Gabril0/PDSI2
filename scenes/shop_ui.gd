@@ -8,7 +8,7 @@ extends Control
 
 const ItemDisplaysScene = preload("res://scenes/ui/ItemDisplay.tscn")
 
-@onready var grid_container: GridContainer = $Panel/GridContainer
+@onready var grid_container: GridContainer = $Panel/CenterContainer/GridContainer
 
 
 @export_group("Pool de Itens por Nível")
