@@ -1,7 +1,11 @@
-[gd_scene load_steps=5 format=4 uid="uid://b2fsqgl6dsp88"]
+[gd_scene load_steps=9 format=4 uid="uid://b2fsqgl6dsp88"]
 
 [ext_resource type="Script" uid="uid://cy23a631tcr4j" path="res://scripts/RoomInfo.gd" id="1_aaexc"]
 [ext_resource type="Texture2D" uid="uid://gxg5sbtec73j" path="res://assets/tboi/rooms.png" id="2_mqgi8"]
+[ext_resource type="PackedScene" uid="uid://b1ukcx7ylknnq" path="res://scenes/bosses/SatanBoss.tscn" id="3_j0coq"]
+[ext_resource type="PackedScene" uid="uid://kgv0lt7xd4s0" path="res://Projectiles/ProjectileBoss.tscn" id="4_ro1at"]
+[ext_resource type="PackedScene" uid="uid://cfvkpiynkvnc5" path="res://Entity/Particles/BloodParticles.tscn" id="5_gjhwc"]
+[ext_resource type="PackedScene" uid="uid://t6o6kldtptl4" path="res://Entity/Particles/DeathParticles.tscn" id="6_qx01q"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rt84j"]
 texture = ExtResource("2_mqgi8")
@@ -157,15 +161,25 @@ texture = ExtResource("2_mqgi8")
 18:3/0 = 0
 17:3/0 = 0
 17:1/0 = 0
+17:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 17:0/0 = 0
+17:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 18:0/0 = 0
+18:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 19:0/0 = 0
+19:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 19:1/0 = 0
+19:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 16:1/0 = 0
+16:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 16:0/0 = 0
+16:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 15:0/0 = 0
+15:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 14:0/0 = 0
+14:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 14:1/0 = 0
+14:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
 [sub_resource type="TileSet" id="TileSet_3wtvp"]
 physics_layer_0/collision_layer = 1
@@ -208,9 +222,9 @@ scale = Vector2(8, 8)
 
 [node name="EnemySpawns" type="Node2D" parent="."]
 
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -74.0
-offset_top = -41.0
-offset_right = 80.0
-offset_bottom = 63.0
-color = Color(1, 0.44, 0.44, 1)
+[node name="SatanBoss" parent="EnemySpawns" instance=ExtResource("3_j0coq")]
+position = Vector2(-2, -12)
+scale = Vector2(3.5, 3.5)
+projectile_scene = ExtResource("4_ro1at")
+hit_particles = ExtResource("5_gjhwc")
+death_particles = ExtResource("6_qx01q")

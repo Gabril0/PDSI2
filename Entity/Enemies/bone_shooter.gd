@@ -35,7 +35,7 @@ func attack() -> void:
 			projectile_speed,
 			damage,
 			attack_range,
-			(follow_object.position - position).normalized(),
+			(follow_object.global_position - global_position).normalized(),
 			"enemy",
 			global_position,
 			velocity,

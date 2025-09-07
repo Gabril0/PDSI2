@@ -29,11 +29,6 @@ var shop_room_template: PackedScene
 # Estrutura: { "tipo": { nível: [templates] } }
 # Ex: { "normal": { 1: [porta_n_1], 2: [porta_n_2] }, "boss": { 0: [porta_b] } }
 var door_templates: Dictionary = {}
-
-func _ready():
-	_load_room_templates_from_path()
-	_load_door_templates_from_path()
-
 # Referência ao nó que conterá as salas
 var dungeon_container: Node2D
 var player: CharacterBody2D
@@ -42,13 +37,67 @@ var player: CharacterBody2D
 var grid = {} # Dicionário para armazenar a matriz de salas. Chave: Vector2i, Valor: dados da sala
 var spawned_room_nodes = {} # Dicionário para armazenar os nós instanciados. Chave: Vector2i, Valor: Node2D
 
+# --- VARIÁVEIS PARA A LÓGICA DAS PORTAS ---
+var current_room_pos: Vector2i = Vector2i.ZERO
+var room_check_timer: Timer
+var run_start_time: int = 0      # Guarda o timestamp do início da run em milissegundos
+var is_run_active: bool = false  # Controla se uma run está em andamento
+
+func _ready():
+	_load_room_templates_from_path()
+	_load_door_templates_from_path()
+	room_check_timer = Timer.new()
+	room_check_timer.wait_time = 1.0 # Verifica a cada 1 segundo
+	room_check_timer.autostart = true
+	room_check_timer.timeout.connect(_update_current_room_doors)
+	add_child(room_check_timer)
+
+func start_run(container: Node2D, player_ref: CharacterBody2D):
+	"""
+	Inicia uma nova run do zero. Zera o progresso e o timer.
+	"""
+	print("--- NOVA RUN INICIADA ---")
+	level_number = 0
+	# Reseta os parâmetros de geração
+	min_rooms = 8
+	max_rooms = 12
+	# Inicia o timer da run
+	run_start_time = Time.get_ticks_msec()
+	is_run_active = true
+	# Começa a gerar o primeiro nível
+	generate_level(container, player_ref)
+
+func end_run(player_won: bool):
+	if not is_run_active: return # Impede que a função seja chamada múltiplas vezes
+	
+	is_run_active = false
+	
+	# Calcula a duração e a pontuação
+	var run_duration_msec = Time.get_ticks_msec() - run_start_time
+	var run_duration_sec = run_duration_msec / 1000.0
+	# Exemplo de pontuação: 1 milhão de pontos dividido pelos segundos (menos é melhor)
+	var final_score = int(1_000_000 / run_duration_sec) if run_duration_sec > 0 else 0
+	
+	if player_won:
+		print("!!! VITÓRIA !!!")
+		print("Tempo final: %.2f segundos" % run_duration_sec)
+		print("Pontuação final: %d" % final_score)
+		# TODO: Chamar a tela de vitória
+		# Ex: get_tree().change_scene_to_file("res://scenes/ui/victory_screen.tscn")
+	else:
+		print("--- FIM DE JOGO ---")
+		print("Tempo final: %.5f segundos" % run_duration_sec)
+		# TODO: Chamar a tela de derrota
+		# Ex: get_tree().change_scene_to_file("res://scenes/ui/game_over_screen.tscn")
+
 func generate_level(container: Node2D, player_ref: CharacterBody2D):
 	self.dungeon_container = container
 	self.player = player_ref
 	
 	# Limpa o level anterior
 	for child in dungeon_container.get_children():
-		child.queue_free()
+		if(child != null):
+			child.queue_free()
 	grid.clear()
 	spawned_room_nodes.clear()
 
@@ -249,48 +298,76 @@ func _configure_room_doors(room_node: Node2D, room_pos: Vector2i, connections: A
 		placeholders_node.add_child(door_instance)
 		placeholder.queue_free()
 
-func _on_player_changed_room(direction_of_exit: Vector2i, current_pos: Vector2i):
-	# 1. Calcula a posição da próxima sala
-	var next_room_pos = current_pos + direction_of_exit
+func _on_player_changed_room(direction_of_exit: Vector2i, previous_pos: Vector2i):
+	# --- LÓGICA ATUALIZADA AO MUDAR DE SALA ---
+	var next_room_pos = previous_pos + direction_of_exit
 	
 	if not spawned_room_nodes.has(next_room_pos):
 		print("ERRO: Tentou se mover para uma sala que não existe em ", next_room_pos)
 		return
 		
-	var current_room_node = spawned_room_nodes[current_pos]
 	var next_room_node = spawned_room_nodes[next_room_pos]
 	
-	# 2. Encontra a porta de entrada na nova sala
+	# ATUALIZA A SALA ATUAL DO JOGADOR
+	current_room_pos = next_room_pos
+	
+	# Força uma verificação de portas IMEDIATAMENTE ao entrar na nova sala
+	_update_current_room_doors()
+	
+	# O resto da função de teleporte do jogador e câmera continua igual
 	var entry_direction = -direction_of_exit
 	var entry_door = _get_door_in_direction(next_room_node, entry_direction)
 	
 	if not entry_door:
-		print("ERRO: Não foi possível encontrar a porta de entrada na sala ", next_room_pos)
-		player.global_position = next_room_node.global_position # Teleporta para o centro como fallback
+		player.global_position = next_room_node.global_position
 		return
 
-	# 3. Calcula a posição final do jogador (A GRANDE MUDANÇA)
-	# Pega a posição global da porta de entrada...
-	# ...e adiciona um vetor na direção de entrada, multiplicado pela nossa distância.
 	var spawn_position = entry_door.global_position + (Vector2(entry_direction) * PLAYER_SPAWN_OFFSET)
-	
-	# 4. Teleporta o jogador para a posição calculada
 	player.global_position = spawn_position
 
-	# 5. [BÔNUS] Adiciona uma transição suave de câmera
-	# Esta parte assume que você tem um nó Camera2D na sua cena principal.
-	# Se a câmera for filha do player, você pode pular esta parte.
-	var camera = get_tree().get_root().get_node_or_null("Mundo/Camera2D") # Ajuste o caminho para sua câmera
+	var camera = get_tree().get_root().get_node_or_null("Mundo/Camera2D")
 	if camera:
 		var tween = create_tween()
-		tween.set_trans(Tween.TRANS_QUINT) # Efeito de aceleração/desaceleração suave
-		tween.set_ease(Tween.EASE_OUT)
-		# Anima a câmera da posição da sala antiga para a nova em 0.4 segundos
+		tween.set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 		tween.tween_property(camera, "global_position", next_room_node.global_position, 0.4)
 
 	# 6. Lógica de abrir/fechar portas da nova sala (a ser implementada)
 	# Ex: _update_doors_for_room(next_room_node)
 
+func _update_current_room_doors():
+
+	if not spawned_room_nodes.has(current_room_pos):
+		#print("   ERRO: A função parou. Sala atual válida: ", spawned_room_nodes.has(current_room_pos))
+		return
+
+	var current_room_node = spawned_room_nodes[current_room_pos]
+	#print("2. Sala atual é '", current_room_node.name, "'")
+
+	var doors_container = current_room_node.get_node_or_null("ConnectionPoints")
+	if not doors_container:
+		#print("   ERRO CRÍTICO: A sala '", current_room_node.name, "' NÃO TEM um nó filho chamado 'ConnectionPoints'!")
+		return
+	if doors_container.get_child_count() == 0:
+		#print("   AVISO: 'ConnectionPoints' foi encontrado, mas está VAZIO. Nenhuma porta foi instanciada dentro dele.")
+		return
+	var has_enemies = false
+	for child in current_room_node.find_children("*", "Node", true):
+		# Usando o nome de grupo "enemy" como você especificou
+		if child.is_in_group("enemy") and not child.is_queued_for_deletion():
+			has_enemies = true
+			break
+			
+	for door in doors_container.get_children():
+		if door.has_method("abrir") and door.has_method("fechar"):
+			print("5. SUCESSO: A porta '", door.name, "' é válida.")
+			if has_enemies:
+				door.fechar()
+				print("--> AÇÃO: Fechando porta.")
+			else:
+				door.abrir()
+				print("--> AÇÃO: Abrindo porta.")
+		else:
+			print("   AVISO: O nó '", door.name, "' dentro de ConnectionPoints NÃO é uma porta válida (falta script ou funções).")
 
 # Função auxiliar para encontrar uma porta específica em uma sala
 func _get_door_in_direction(room_node: Node2D, direction: Vector2i) -> Node2D:

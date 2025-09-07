@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=4 uid="uid://wcfvr3wd5oos"]
+[gd_scene load_steps=6 format=4 uid="uid://wcfvr3wd5oos"]
 
 [ext_resource type="Script" uid="uid://cy23a631tcr4j" path="res://scripts/RoomInfo.gd" id="1_yh76n"]
 [ext_resource type="Texture2D" uid="uid://gxg5sbtec73j" path="res://assets/tboi/rooms.png" id="2_t5kfd"]
+[ext_resource type="PackedScene" uid="uid://dg61rv4ij8lao" path="res://scenes/bosses/StationaryBoss.tscn" id="3_t5kfd"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rt84j"]
 texture = ExtResource("2_t5kfd")
@@ -157,15 +158,25 @@ texture = ExtResource("2_t5kfd")
 18:3/0 = 0
 17:3/0 = 0
 17:1/0 = 0
+17:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 17:0/0 = 0
+17:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 18:0/0 = 0
+18:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 19:0/0 = 0
+19:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 19:1/0 = 0
+19:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 16:1/0 = 0
+16:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 16:0/0 = 0
+16:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 15:0/0 = 0
+15:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 14:0/0 = 0
+14:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 14:1/0 = 0
+14:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
 [sub_resource type="TileSet" id="TileSet_3wtvp"]
 physics_layer_0/collision_layer = 1
@@ -208,9 +219,6 @@ scale = Vector2(8, 8)
 
 [node name="EnemySpawns" type="Node2D" parent="."]
 
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -74.0
-offset_top = -41.0
-offset_right = 80.0
-offset_bottom = 63.0
-color = Color(1, 0.44, 0.44, 1)
+[node name="StationaryBoss" parent="EnemySpawns" instance=ExtResource("3_t5kfd")]
+position = Vector2(-18, -97)
+scale = Vector2(5, 5)

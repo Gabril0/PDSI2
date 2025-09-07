@@ -7,7 +7,7 @@ signal player_entered(direction: Vector2i)
 ## A direção que esta porta representa. Será configurada pelo LevelManager.
 @export var direction: Vector2i
 
-@onready var fechada_sprite: Sprite2D = $fechada
+@onready var aberta_sprite: Sprite2D = $aberta
 @onready var area_entrar: Area2D = $area_entrar
 
 func _ready() -> void:
@@ -23,9 +23,9 @@ func _on_body_entered(body):
 		emit_signal("player_entered", direction)
 
 func fechar():
-	fechada_sprite.visible = true
-	area_entrar.monitoring = false # Impede que o sinal body_entered seja emitido.
+	aberta_sprite.visible = false
+	area_entrar.monitoring = false
 	
 func abrir():
-	fechada_sprite.visible = false
+	aberta_sprite.visible = true
 	area_entrar.monitoring = true

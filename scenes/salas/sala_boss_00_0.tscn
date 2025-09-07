@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=4 uid="uid://sej0kb5qsvnd"]
+[gd_scene load_steps=6 format=4 uid="uid://sej0kb5qsvnd"]
 
 [ext_resource type="Script" uid="uid://cy23a631tcr4j" path="res://scripts/RoomInfo.gd" id="1_p6xyi"]
 [ext_resource type="Texture2D" uid="uid://gxg5sbtec73j" path="res://assets/tboi/rooms.png" id="2_we6dm"]
+[ext_resource type="PackedScene" uid="uid://bdywp7sdl25fr" path="res://scenes/bosses/SlideBoss.tscn" id="3_1ygwj"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rt84j"]
 texture = ExtResource("2_we6dm")
@@ -195,9 +196,5 @@ scale = Vector2(8, 8)
 
 [node name="EnemySpawns" type="Node2D" parent="."]
 
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -74.0
-offset_top = -41.0
-offset_right = 80.0
-offset_bottom = 63.0
-color = Color(1, 0.44, 0.44, 1)
+[node name="SlideBoss" parent="EnemySpawns" instance=ExtResource("3_1ygwj")]
+scale = Vector2(4, 4)
