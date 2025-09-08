@@ -4,7 +4,7 @@ extends CharacterBody2D
 # Base stats 
 @export var health : int = 100
 @export var damage : int = 10
-@export var attack_range : float = 50.0
+@export var attack_range : float = 1
 @export var attack_speed : float = 1.0
 @export var speed : float = 200.0
 @export var projectile_speed : float = 800.0

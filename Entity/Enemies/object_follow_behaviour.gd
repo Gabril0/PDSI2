@@ -51,6 +51,8 @@ func vision_loop() -> void:
 		await get_tree().create_timer(0.25).timeout
 
 func move_to_target(target_pos: Vector2) -> void:
+	if !can_move:
+		return
 	if can_fly:
 		velocity = (target_pos - global_position).normalized() * speed
 	else:
@@ -71,9 +73,9 @@ func _on_velocity_computed(safe_velocity: Vector2) -> void:
 func take_damage(ammount : int, attacker: Node2D) -> void:
 	super.take_damage(ammount, attacker)
 	var hits: Array[Dictionary] = raycast.circle_cast(global_position, vision_distance * 100)
-	for hit in hits:
-		var collider = hit.collider
-		if collider is CollisionObject2D:
+	if !follow_object:
+		for hit in hits:
+			var collider : CollisionObject2D = hit.collider
 			if collider.is_in_group(target_group):
 				follow_object = collider
 				memory_timer = memory_time

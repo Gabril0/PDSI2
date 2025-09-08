@@ -20,6 +20,7 @@ var momentum : Vector2 = Vector2.ZERO
 var caster_is_player : bool
 	
 func init(_speed:float, _damage:float, _range:float, _direction : Vector2, _ignore_group: String, pos : Vector2, caster_velocity : Vector2, _caster: Node2D) -> void:
+	print(scale)
 	speed = _speed
 	damage = _damage
 	range = _range
@@ -27,7 +28,6 @@ func init(_speed:float, _damage:float, _range:float, _direction : Vector2, _igno
 	position = pos
 	direction = _direction
 	momentum = caster_velocity
-	original_scale = scale
 	caster = _caster
 	if caster is Player:
 		caster_is_player = true

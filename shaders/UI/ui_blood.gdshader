@@ -18,13 +18,13 @@ void fragment() {
 
     float fade_width = max(end_curve, 0.1);
     float fade_start = max(0.0, progress - fade_width);
-    
+
     if (progress > 0.0 && uv.x > 0.01) {
         float t = (uv.x - fade_start) / max(fade_width, 0.0001);
-        
+
         float distance_from_center = abs(uv.y - 0.75) * 2.0;
         float curve_factor = 1.0 - pow(t, 2.0);
-        
+
         if (distance_from_center > curve_factor) {
             discard;
         }
