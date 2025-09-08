@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://duobo2q5j1abu"]
+
+[ext_resource type="Texture2D" uid="uid://cli8aup0vwr5a" path="res://Items/icons/Pera.tres" id="1_db3eo"]
+[ext_resource type="Script" uid="uid://c0ck6657wa8eh" path="res://Item/item.gd" id="1_ep6wc"]
+
+[resource]
+script = ExtResource("1_ep6wc")
+i_name = "Fruta de Força"
+description = ""
+price = 50
+icon = ExtResource("1_db3eo")
+heal_amount = 0
+speed_buff = 0.0
+damage_buff = 500
+health_regen = 0.0
+metadata/_custom_type_script = "uid://c0ck6657wa8eh"

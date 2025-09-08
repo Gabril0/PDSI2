@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://cmmorc5c5niqv"]
+
+[ext_resource type="Texture2D" uid="uid://cyvln8ltw2t8k" path="res://Items/icons/Laranja.tres" id="1_5aiqt"]
+[ext_resource type="Script" uid="uid://c0ck6657wa8eh" path="res://Item/item.gd" id="1_kpoqh"]
+
+[resource]
+script = ExtResource("1_kpoqh")
+i_name = "Fruta de Cura"
+description = ""
+price = 25
+icon = ExtResource("1_5aiqt")
+heal_amount = 1000
+speed_buff = 0.0
+damage_buff = 0
+health_regen = 0.0
+metadata/_custom_type_script = "uid://c0ck6657wa8eh"

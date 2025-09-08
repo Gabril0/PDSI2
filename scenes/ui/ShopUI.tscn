@@ -1,9 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://dtboe2e448byu"]
+[gd_scene load_steps=8 format=3 uid="uid://dtboe2e448byu"]
 
 [ext_resource type="Script" uid="uid://dwx7eea1lttf" path="res://scenes/shop_ui.gd" id="1_5pbih"]
 [ext_resource type="Script" uid="uid://c0ck6657wa8eh" path="res://Item/item.gd" id="2_rj07h"]
 [ext_resource type="Resource" uid="uid://buy6puk4a3n46" path="res://Items/pocao_de_velocidade.tres" id="3_4y8cl"]
+[ext_resource type="Resource" uid="uid://cmmorc5c5niqv" path="res://Items/fruta_cura.tres" id="3_ofqlf"]
+[ext_resource type="Resource" uid="uid://dkubn5xmvdu4d" path="res://Items/fruta_velocidade.tres" id="4_hxm6d"]
 [ext_resource type="Resource" uid="uid://bkb62snwrbm0c" path="res://Items/pocao_de_vida.tres" id="4_ofqlf"]
+[ext_resource type="Resource" uid="uid://duobo2q5j1abu" path="res://Items/fruta_forca.tres" id="5_5nqok"]
 
 [node name="ShopUi" type="Control"]
 layout_mode = 3
@@ -13,8 +16,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_5pbih")
-level_0_items = Array[ExtResource("2_rj07h")]([ExtResource("3_4y8cl"), ExtResource("3_4y8cl")])
-level_1_items = Array[ExtResource("2_rj07h")]([ExtResource("3_4y8cl"), ExtResource("4_ofqlf")])
+level_0_items = Array[ExtResource("2_rj07h")]([ExtResource("3_ofqlf"), ExtResource("4_hxm6d")])
+level_1_items = Array[ExtResource("2_rj07h")]([ExtResource("5_5nqok"), ExtResource("3_ofqlf")])
 level_2_items = Array[ExtResource("2_rj07h")]([ExtResource("3_4y8cl"), ExtResource("4_ofqlf")])
 level_3_items = Array[ExtResource("2_rj07h")]([ExtResource("4_ofqlf"), ExtResource("4_ofqlf")])
 level_4_items = Array[ExtResource("2_rj07h")]([ExtResource("4_ofqlf"), ExtResource("4_ofqlf")])

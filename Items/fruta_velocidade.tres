@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://dkubn5xmvdu4d"]
+
+[ext_resource type="Texture2D" uid="uid://pcj1mrhnd7i8" path="res://Items/icons/Uva.tres" id="1_pl6ac"]
+[ext_resource type="Script" uid="uid://c0ck6657wa8eh" path="res://Item/item.gd" id="1_txcse"]
+
+[resource]
+script = ExtResource("1_txcse")
+i_name = "Fruta de Velocidade"
+description = ""
+price = 50
+icon = ExtResource("1_pl6ac")
+heal_amount = 0
+speed_buff = 200.0
+damage_buff = 0
+health_regen = 0.0
+metadata/_custom_type_script = "uid://c0ck6657wa8eh"

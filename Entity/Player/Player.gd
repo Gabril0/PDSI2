@@ -42,6 +42,8 @@ func _ready() -> void:
 	flash_timer.one_shot = false
 	add_child(flash_timer)
 	flash_timer.timeout.connect(_on_flash_timer_timeout)
+	
+	PlayerData.item_added.connect(add_item)
 
 
 func _process(delta: float) -> void:
@@ -52,7 +54,9 @@ func _process(delta: float) -> void:
 		room_changed.emit(current_grid_pos)
 	
 	for item in items:
-		item.on_process()
+		# item.on_process()
+		item.on_process(self, delta)
+		
 	movement_input_check()
 	attack_input_check()
 	animation_handler.update_animation(direction, attackDirection)
@@ -171,7 +175,7 @@ func _collect_sprites(node: Node, arr: Array[Sprite2D]) -> void:
 		
 func add_item(item : Item) -> void:
 	items.append(item)
-	item.activate()
+	item.activate(self)
 	
 func die() -> void:
 	# 1. Desabilita o jogador para que ele não possa mais se mover ou ser atingido.

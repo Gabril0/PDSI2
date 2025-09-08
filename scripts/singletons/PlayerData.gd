@@ -9,6 +9,8 @@ signal coins_updated(new_amout: int) #Vei ser emitido sempre que a quant de moed
 
 signal inventory_updated(new_inventory: Dictionary)
 
+signal item_added(item_resource: Item)
+
 var coins: int = 50
 
 var inventory: Dictionary = {}
@@ -37,6 +39,7 @@ func add_item(item_resource: Item) -> void:
 	
 	print("Item ", item_resource.i_name, "adicionado ao inventario")
 	inventory_updated.emit(inventory)
+	item_added.emit(item_resource)
 
 func set_cause_of_death(attacker_node: Node2D):
 	# Limpa a informação anterior

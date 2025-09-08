@@ -6,30 +6,32 @@ class_name Item
 @export var price: int
 @export var icon : Texture2D
 
-#@export var icon : Texture
+@export_group("Efeitos do Item")
+@export var heal_amount: int = 0      # Quantidade de vida a curar
+@export var speed_buff: float = 0.0   # Aumento na velocidade (em pixels/seg)
+@export var damage_buff: int = 0      # Aumento no dano
 
-var player_ref : Player
+@export var health_regen: float = 0.0  # Vida por segundo
 
-func on_attack() -> void:
-	pass
-	
-func on_projectile_end() -> void:
-	pass
 
-func on_process() -> void: # Happens every frame
-	pass
-	
-func on_projectile_process() -> void:
-	pass
-	
-func on_hit() -> void:
-	pass
+func activate(target: Entity):
+	# Lógica de Cura
+	if heal_amount > 0:
+		target.heal(heal_amount)
+		print(target.name, " curou ", heal_amount, " de vida.")
 
-func on_die() -> void:
-	pass
+	# Lógica de Buff de Velocidade
+	if speed_buff > 0.0:
+		target.speed += speed_buff
+		print(target.name, " aumentou a velocidade em ", speed_buff, ". Nova velocidade: ", target.speed)
 
-func on_floor_exit() -> void:
-	pass
+	# Lógica de Buff de Dano
+	if damage_buff > 0:
+		target.damage += damage_buff
+		print(target.name, " aumentou o dano em ", damage_buff, ". Novo dano: ", target.damage)
 
-func activate() -> void:
-	pass
+func on_process(target: Entity, delta: float):
+	# Lógica de Regeneração de Vida
+	if health_regen > 0.0:
+		# Usamos 'delta' para que a cura seja por segundo, e não por frame.
+		target.heal(health_regen * delta)
