@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=3 uid="uid://bke08r8m5dq8w"]
+
+[ext_resource type="Script" uid="uid://bein6jr7wevon" path="res://login.gd" id="1_6uxbt"]
+
+[node name="Login" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_6uxbt")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 0
+offset_right = 1150.0
+offset_bottom = 645.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="Email" type="LineEdit" parent="CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(166, 47)
+layout_mode = 2
+placeholder_text = "E-mail
+"
+
+[node name="Senha" type="LineEdit" parent="CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(166, 47)
+layout_mode = 2
+placeholder_text = "Password"
+
+[node name="Button" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Confirmar"
+
+[node name="Button2" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Cadastre-se"
