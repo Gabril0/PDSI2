@@ -8,6 +8,10 @@ const ROOM_SIZE = Vector2(3500, 2500)
  # Distância em pixels que o jogador surgirá da porta ao entrar em uma sala
 const PLAYER_SPAWN_OFFSET = -200.0
 
+#Tentando resolver o problema da loja nao aparecer
+const ShopUIScene = preload("res://scenes/ui/ShopUI.tscn")
+var shop_instance = null
+
 ## --- PARÂMETROS CONFIGURÁVEIS  ---
 @export var level_number: int = 0
 @export var min_rooms: int = 8
@@ -303,6 +307,12 @@ func _configure_room_doors(room_node: Node2D, room_pos: Vector2i, connections: A
 		placeholder.queue_free()
 
 func _on_player_changed_room(direction_of_exit: Vector2i, previous_pos: Vector2i):
+	
+	#Tentando arrumar a loja aqui (logica de limpeza)
+	if is_instance_valid(shop_instance):
+		shop_instance.queue_free()
+		shop_instance = null
+	
 	# --- LÓGICA ATUALIZADA AO MUDAR DE SALA ---
 	var next_room_pos = previous_pos + direction_of_exit
 	
@@ -314,6 +324,14 @@ func _on_player_changed_room(direction_of_exit: Vector2i, previous_pos: Vector2i
 	
 	# ATUALIZA A SALA ATUAL DO JOGADOR
 	current_room_pos = next_room_pos
+	
+	# --- NOVA LÓGICA DE MOSTRAR A LOJA ---
+	# Verifica o tipo da sala para a qual estamos entrando
+	var room_type = grid[next_room_pos].type
+	if room_type == "shop":
+		print("Entrou na sala da loja! Instanciando UI...")
+		shop_instance = ShopUIScene.instantiate()
+		get_tree().root.get_node("Mundo/UILayer").add_child(shop_instance)
 	
 	# Força uma verificação de portas IMEDIATAMENTE ao entrar na nova sala
 	_update_current_room_doors()

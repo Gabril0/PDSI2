@@ -12,6 +12,7 @@ const ItemDisplaysScene = preload("res://scenes/ui/ItemDisplay.tscn")
 
 
 @export_group("Pool de Itens por Nível")
+@export var level_0_items: Array[Item]
 @export var level_1_items: Array[Item]
 @export var level_2_items: Array[Item]
 @export var level_3_items: Array[Item]
@@ -27,6 +28,8 @@ func populate_shop() -> void:
 	
 	var item_pool: Array[Item] = []
 	match current_level:
+		0:
+			item_pool = level_0_items
 		1:
 			item_pool = level_1_items
 		2:

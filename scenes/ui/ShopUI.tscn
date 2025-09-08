@@ -13,7 +13,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_5pbih")
+level_0_items = Array[ExtResource("2_rj07h")]([ExtResource("3_4y8cl"), ExtResource("3_4y8cl")])
 level_1_items = Array[ExtResource("2_rj07h")]([ExtResource("3_4y8cl"), ExtResource("4_ofqlf")])
+level_2_items = Array[ExtResource("2_rj07h")]([ExtResource("3_4y8cl"), ExtResource("4_ofqlf")])
+level_3_items = Array[ExtResource("2_rj07h")]([ExtResource("4_ofqlf"), ExtResource("4_ofqlf")])
+level_4_items = Array[ExtResource("2_rj07h")]([ExtResource("4_ofqlf"), ExtResource("4_ofqlf")])
+level_5_items = Array[ExtResource("2_rj07h")]([ExtResource("3_4y8cl"), ExtResource("3_4y8cl")])
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
