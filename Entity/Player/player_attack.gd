@@ -22,6 +22,8 @@ func DirectionCheck() -> void:
 		currentAttackDirection = Vector2(0,1)
 
 func shoot_projectile() -> void:
+	for item in player.items:
+		item.on_attack()
 	DirectionCheck()
 	if projectile_scene == null:
 		print("Projectile scene is missing!")
@@ -29,6 +31,6 @@ func shoot_projectile() -> void:
 	var projectileObj = projectile_scene.instantiate()
 	var projectile : Projectile = projectileObj
 	
-	projectile.init(player.projectile_speed, player.damage, player.attack_range,  currentAttackDirection, "player", global_position, player.velocity)
+	projectile.init(player.projectile_speed, player.damage, player.attack_range,  currentAttackDirection, "player", global_position, player.velocity, player)
 	
 	get_tree().root.add_child(projectile)

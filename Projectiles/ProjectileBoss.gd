@@ -1,0 +1,77 @@
+class_name ProjectileBoss
+extends Area2D
+
+@export var speed : float = 400.0
+var decay_ammount : float = 400
+var direction : Vector2 = Vector2.ZERO
+@export var damage : int = 10
+@export var range : float = 300.0
+var ignore_group : String = ""
+@export var momentum_boost : float = 2.25
+@export var sprite : Sprite2D
+var last_positions : Array[Vector2]
+var caster : Node2D
+
+var _elapsed_time : float = 0.0
+var momentum : Vector2 = Vector2.ZERO
+@export var momentum_decay : float = 0.98 # Decaimento do momentum por frame
+@onready var original_scale : Vector2 = scale
+@onready var particles_end : CPUParticles2D = $Sprite2D/HitParticles
+var caster_is_player : bool
+	
+func init(_speed:float, _damage:float, _range:float, _direction : Vector2, _ignore_group: String, pos : Vector2, caster_velocity : Vector2, _caster: Node2D) -> void:
+	speed = _speed
+	damage = _damage
+	range = _range
+	ignore_group = _ignore_group
+	position = pos
+	direction = _direction
+	momentum = caster_velocity
+	original_scale = scale
+	caster = _caster
+	if caster is Player:
+		caster_is_player = true
+
+func _process(delta: float) -> void:
+	if caster_is_player:
+		for item in caster.items:
+			item.on_projectile_process()
+
+	momentum *= momentum_decay
+	if momentum.dot(direction) < 0:
+		momentum = Vector2.ZERO
+
+	var total_velocity : Vector2 = direction.normalized() * speed + momentum * momentum_boost
+	var movement : Vector2 = total_velocity * delta
+	position += movement
+	_elapsed_time += delta
+
+	if _elapsed_time <= range * 0.25:
+		scale = lerp(Vector2.ZERO, original_scale, _elapsed_time / (range * 0.25))
+
+	if _elapsed_time >= range * 0.9:
+		position.y += decay_ammount * delta / range
+	if _elapsed_time >= range * 0.8:
+		var fade_time = range * 0.2
+		var t = (_elapsed_time - range * 0.8) / fade_time
+		scale = original_scale.lerp( Vector2.ZERO, t)
+	if _elapsed_time >= range:
+		end_projectile()
+		
+func end_projectile() -> void:
+	if caster_is_player:
+		for item in caster.items:
+			item.on_projectile_end()
+	var p = particles_end.duplicate()
+	get_tree().root.add_child(p)
+	p.scale = Vector2(1,1)
+	p.emitting = true
+	p.position = global_position
+	p.connect("finished", p.queue_free)
+	queue_free()
+
+func _on_body_entered(body):
+	if not body.is_in_group(ignore_group):
+		if body is Entity:
+			body.take_damage(damage, caster)
+		end_projectile()
