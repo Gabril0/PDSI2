@@ -6,7 +6,8 @@ extends Node2D
 
 func _ready():
 	LevelManager.level_number = 0
-	LevelManager.generate_level(mapa_container, player)
+	#LevelManager.generate_level(mapa_container, player)
+	LevelManager.start_run(mapa_container, player)
 
 func _input(event):
 	# Para testar, gerar um novo level com a tecla "Enter

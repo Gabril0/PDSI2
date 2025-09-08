@@ -6,6 +6,9 @@ extends Entity # Ou CharacterBody2D se não estiver usando a classe Entity
 @export var number_of_projectiles: int = 10
 @export var attack_cooldown: float = 3.0
 
+@export var portrait_texture: Texture2D
+
+
 signal boss_defeated
 
 # Agora aceita qualquer nó que herde de Node2D (incluindo Sprite2D e AnimatedSprite2D)
@@ -87,3 +90,6 @@ func die() -> void:
 	Engine.time_scale = 1.0
 	LevelManager.go_to_next_level()
 	super.die()
+
+func get_portrait_texture() -> Texture2D:
+	return portrait_texture

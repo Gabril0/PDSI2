@@ -253,6 +253,7 @@ script = ExtResource("1_hklrd")
 move_speed = 50.0
 dash_speed = 900.0
 dash_duration = 0.5
+portrait_texture = ExtResource("8_4pjj5")
 stream_final_shotgun_pellets = 0
 shotgun_pellets = 10
 shotgun_spread = 90.0

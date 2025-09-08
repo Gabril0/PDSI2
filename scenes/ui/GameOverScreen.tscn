@@ -1,0 +1,59 @@
+[gd_scene load_steps=3 format=3 uid="uid://2v35ciwvv1rb"]
+
+[ext_resource type="Script" uid="uid://b6nh5h5fy678f" path="res://scripts/game_over_screen.gd" id="1_wi470"]
+[ext_resource type="PackedScene" uid="uid://cpst4mkvlp7nt" path="res://Ranking.tscn" id="2_s5x6d"]
+
+[node name="GameOverScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wi470")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Ranking" parent="HBoxContainer" instance=ExtResource("2_s5x6d")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="Fim" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Items" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ItemGrid" type="GridContainer" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CausaMorte" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="EnemyPortrait" type="TextureRect" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="BtnTentarNovamente" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="BtnSair" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2

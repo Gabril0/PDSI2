@@ -9,6 +9,7 @@
 
 [node name="Failex" type="CharacterBody2D" node_paths=PackedStringArray("nav") groups=["enemy"]]
 script = ExtResource("1_3iu30")
+portrait_texture = ExtResource("4_21p2n")
 vision_distance = 400.0
 nav = NodePath("NavigationAgent2D")
 speed = 400.0

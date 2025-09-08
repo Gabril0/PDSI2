@@ -11,6 +11,8 @@ extends Entity
 @export var jump_duration: float = 0.8
 @export var jump_height: float = 150.0
 
+@export var portrait_texture: Texture2D
+
 @export_group("Ataque na Aterrisagem")
 @export var nova_pellets: int = 8
 
@@ -125,3 +127,6 @@ func apply_knockback(direction: Vector2) -> void: pass
 func die() -> void:
 	emit_signal("boss_defeated")
 	super.die()
+
+func get_portrait_texture() -> Texture2D:
+	return portrait_texture

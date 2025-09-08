@@ -13,6 +13,9 @@ func _ready():
 	btn_jogar.pressed.connect(_on_btn_jogar_pressed)
 	btn_ranking.pressed.connect(_on_btn_ranking_pressed)
 	btn_sair.pressed.connect(_on_btn_sair_pressed)
+	
+	# Pede a seed da semana assim que o menu principal carrega
+	API.buscar_seed()
 
 func setup_layout():
 	# Configura o fundo com a cor marrom escura da imagem
@@ -82,7 +85,7 @@ func setup_button_style(button: Button, new_text: String, bg_color: Color):
 
 func _on_btn_jogar_pressed():
 	# Muda para a cena do jogo principal
-	get_tree().change_scene_to_file("res://main.tscn")
+	get_tree().change_scene_to_file("res://scenes/Mundo.tscn")
 
 func _on_btn_ranking_pressed():
 	# Muda para a cena do ranking

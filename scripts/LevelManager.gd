@@ -54,7 +54,7 @@ func _ready():
 	_load_door_templates_from_path()
 	room_check_timer = Timer.new()
 	room_check_timer.wait_time = 1.0 # Verifica a cada 1 segundo
-	room_check_timer.autostart = true
+	room_check_timer.autostart = false
 	room_check_timer.timeout.connect(_update_current_room_doors)
 	add_child(room_check_timer)
 
@@ -70,6 +70,7 @@ func start_run(container: Node2D, player_ref: CharacterBody2D):
 	# Inicia o timer da run
 	run_start_time = Time.get_ticks_msec()
 	is_run_active = true
+	room_check_timer.start()
 	# Começa a gerar o primeiro nível
 	generate_level(container, player_ref)
 
@@ -77,6 +78,7 @@ func end_run(player_won: bool):
 	if not is_run_active: return # Impede que a função seja chamada múltiplas vezes
 	
 	is_run_active = false
+	room_check_timer.stop()
 	
 	# Calcula a duração e a pontuação
 	var run_duration_msec = Time.get_ticks_msec() - run_start_time
@@ -84,12 +86,25 @@ func end_run(player_won: bool):
 	# Exemplo de pontuação: 1 milhão de pontos dividido pelos segundos (menos é melhor)
 	var final_score = int(1_000_000 / run_duration_sec) if run_duration_sec > 0 else 0
 	
+	if API.jogador_id != 0 and API.current_week_seed != 0:
+		print("Enviando pontuação para o ranking...")
+		var time_in_seconds = int(run_duration_sec)
+		API.enviar_score(API.jogador_id, API.current_week_seed, time_in_seconds)
+	else:
+		print("Não foi possível enviar a pontuação: Jogador não logado ou seed não encontrada.")
+	
 	if player_won:
 		print("!!! VITÓRIA !!!")
 		print("Tempo final: %.2f segundos" % run_duration_sec)
 		print("Pontuação final: %d" % final_score)
 		# TODO: Chamar a tela de vitória
-		# Ex: get_tree().change_scene_to_file("res://scenes/ui/victory_screen.tscn")
+		
+		if API.jogador_id != 0 and API.current_week_seed != 0:
+			print("Enviando pontuação para o ranking...")
+			var time_in_seconds = int(run_duration_sec)
+			API.enviar_score(API.jogador_id, API.current_week_seed, time_in_seconds)
+		else:
+			print("Não foi possível enviar a pontuação: Jogador não logado ou seed não encontrada.")
 	else:
 		print("--- FIM DE JOGO ---")
 		print("Tempo final: %.5f segundos" % run_duration_sec)
@@ -108,7 +123,18 @@ func generate_level(container: Node2D, player_ref: CharacterBody2D):
 	spawned_room_nodes.clear()
 
 	# 3. Usa o timestamp como seed
-	seed(Time.get_unix_time_from_system())
+	# seed(Time.get_unix_time_from_system())
+	
+	#Substituir essa bomba para utilizar a seed do banco de dados
+	if API.current_week_seed != 0:
+		var level_seed = API.current_week_seed + (level_number + 1)
+		seed(level_seed)
+		print("Usando a SEED da semana vinda da API: ", API.current_week_seed)
+	else:
+		seed(Time.get_unix_time_from_system())
+		print("AVISO: Seed da semana não encontrada na API. Usando seed aleatória local.")
+
+	
 	var target_room_count = randi_range(min_rooms, max_rooms)
 
 	# 4/5. ALGORITMO DE GERAÇÃO (Random Walk em Grid)

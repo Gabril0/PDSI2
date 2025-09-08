@@ -25,6 +25,15 @@ func _ready():
 	API.buscar_ranking_atual()
 
 func _setup_ranking_layout():
+	
+	var background = ColorRect.new()
+	background.color = Color(0.4, 0.3, 0.3, 1.0)
+	
+	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	
+	add_child(background)
+	move_child(background, 0)
+	
 	# Configura o container principal para ocupar toda a tela
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	
@@ -209,7 +218,9 @@ func _create_table_with_entries(ranking_entries):
 	var table_data = VBoxContainer.new()
 	table_data.add_theme_constant_override("separation", 2)
 	
-	for i in range(ranking_entries.size()):
+	var limit = min(ranking_entries.size(), 10)
+	
+	for i in range(limit):
 		var entry = ranking_entries[i]
 		var rank_item = _create_ranking_item(entry, i % 2 == 0)
 		table_data.add_child(rank_item)

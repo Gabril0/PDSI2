@@ -5,22 +5,6 @@
 [ext_resource type="PackedScene" uid="uid://t6o6kldtptl4" path="res://Entity/Particles/DeathParticles.tscn" id="3_ufrba"]
 [ext_resource type="Texture2D" uid="uid://bekifpt6krbc6" path="res://Entity/Enemies/Sprites/stalker.png" id="4_ufrba"]
 
-[sub_resource type="Animation" id="Animation_553nb"]
-resource_name = "idle"
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-
 [sub_resource type="Animation" id="Animation_n8nt7"]
 length = 0.001
 tracks/0/type = "value"
@@ -34,6 +18,23 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_ufrba"]
+resource_name = "Run"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [14, 15, 16, 17]
 }
 
 [sub_resource type="Animation" id="Animation_cr4gk"]
@@ -66,9 +67,8 @@ tracks/1/keys = {
 }]
 }
 
-[sub_resource type="Animation" id="Animation_ufrba"]
-resource_name = "Run"
-length = 0.4
+[sub_resource type="Animation" id="Animation_553nb"]
+resource_name = "idle"
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -77,10 +77,10 @@ tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [14, 15, 16, 17]
+"values": [0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_g22gb"]
@@ -96,6 +96,7 @@ _data = {
 [node name="Stalker" type="CharacterBody2D" node_paths=PackedStringArray("animation_player", "nav") groups=["enemy"]]
 script = ExtResource("1_hp375")
 animation_player = NodePath("Sprite2D/AnimationPlayer")
+portrait_texture = ExtResource("4_ufrba")
 nav = NodePath("NavigationAgent2D")
 speed = 400.0
 hit_particles = ExtResource("3_n8nt7")

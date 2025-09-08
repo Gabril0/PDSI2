@@ -8,6 +8,9 @@ extends Entity
 @export var time_between_charges: float = 3.0  # Tempo parado entre as investidas
 @export var charge_indication_time: float = 1.0
 
+@export var portrait_texture: Texture2D
+
+
 # --- Máquina de Estados Simplificada ---
 enum State { IDLE, AIMING_CHARGE, CHARGING }
 var current_state = State.IDLE
@@ -110,3 +113,6 @@ func die() -> void:
 	Engine.time_scale = 1.0
 	LevelManager.go_to_next_level()
 	super.die()
+
+func get_portrait_texture() -> Texture2D:
+	return portrait_texture

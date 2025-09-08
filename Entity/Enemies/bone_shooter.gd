@@ -5,6 +5,9 @@ extends ObjectFollowBehaviour
 @export var attack_indication : float = 1
 @export var visuals : Sprite2D
 
+@export var portrait_texture: Texture2D
+
+
 var og_scale : Vector2
 var animation_indication_progress : float = 0
 var attacking : bool = false
@@ -62,3 +65,6 @@ func _do_attack_animation() -> void:
 	# Reset after animation
 	visuals.scale = og_scale
 	visuals.modulate = Color(1,1,1,1)
+
+func get_portrait_texture() -> Texture2D:
+	return portrait_texture

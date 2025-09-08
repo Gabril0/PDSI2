@@ -254,6 +254,7 @@ size = Vector2(13.6929, 10.3734)
 script = ExtResource("1_1pfl7")
 charge_speed = 1300.0
 charge_duration = 8.0
+portrait_texture = ExtResource("5_5f27w")
 visuals = NodePath("AnimatedSprite2D")
 speed = 400.0
 hit_particles = ExtResource("3_te06i")

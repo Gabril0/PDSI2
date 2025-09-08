@@ -254,6 +254,7 @@ size = Vector2(13.6929, 10.3734)
 [node name="StationaryBoss" type="CharacterBody2D" node_paths=PackedStringArray("visuals") groups=["enemy"]]
 script = ExtResource("1_uc2jn")
 projectile_scene = ExtResource("2_0ptbm")
+portrait_texture = ExtResource("4_o4rem")
 visuals = NodePath("AnimatedSprite2D")
 health = 500
 hit_particles = ExtResource("2_rjuji")

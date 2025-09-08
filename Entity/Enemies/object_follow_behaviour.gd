@@ -75,7 +75,7 @@ func take_damage(ammount : int, attacker: Node2D) -> void:
 	var hits: Array[Dictionary] = raycast.circle_cast(global_position, vision_distance * 100)
 	if !follow_object:
 		for hit in hits:
-			var collider : CollisionObject2D = hit.collider
+			var collider = hit.collider
 			if collider.is_in_group(target_group):
 				follow_object = collider
 				memory_timer = memory_time

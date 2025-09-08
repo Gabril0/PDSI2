@@ -13,6 +13,8 @@ var coins: int = 50
 
 var inventory: Dictionary = {}
 
+var cause_of_death_info: Dictionary = {}
+
 func can_afford(amount: int) -> bool:
 	return coins >= amount
 
@@ -35,5 +37,17 @@ func add_item(item_resource: Item) -> void:
 	
 	print("Item ", item_resource.i_name, "adicionado ao inventario")
 	inventory_updated.emit(inventory)
+
+func set_cause_of_death(attacker_node: Node2D):
+	# Limpa a informação anterior
+	cause_of_death_info.clear()
+
+	# Tenta pegar uma textura de retrato do inimigo (precisaremos adicionar isso no inimigo)
+	if attacker_node and attacker_node.has_method("get_portrait_texture"):
+		cause_of_death_info["portrait"] = attacker_node.get_portrait_texture()
+	else:
+		cause_of_death_info["portrait"] = null # Sem imagem
+
+	cause_of_death_info["name"] = attacker_node.name if attacker_node else "Ambiente"
 
 ##Esse script vai ser um autoload

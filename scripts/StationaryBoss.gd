@@ -14,6 +14,8 @@ extends Entity
 @export var triple_nova_projectiles: int = 10
 @export var triple_nova_delay: float = 0.3
 
+@export var portrait_texture: Texture2D
+
 @export_group("Padrão 3: Staggered Nova")
 @export var staggered_nova_bursts: int = 6
 @export var staggered_nova_projectiles: int = 10
@@ -132,3 +134,6 @@ func die() -> void:
 	Engine.time_scale = 1.0
 	LevelManager.go_to_next_level()
 	super.die()
+
+func get_portrait_texture() -> Texture2D:
+	return portrait_texture

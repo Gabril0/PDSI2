@@ -20,6 +20,8 @@ extends Entity
 @export var alt_v_shot_spread: float = 30.0
 @export var alt_delay: float = 0.3
 
+@export var portrait_texture: Texture2D
+
 @export_group("Padrão 2: Converging Streams")
 @export var stream_pellets: int = 25
 @export var stream_start_angle: float = 60.0
@@ -175,3 +177,6 @@ func die() -> void:
 	Engine.time_scale = 1.0
 	LevelManager.end_run(true)
 	super.die()
+
+func get_portrait_texture() -> Texture2D:
+	return portrait_texture

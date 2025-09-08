@@ -257,6 +257,7 @@ script = ExtResource("1_0wg3n")
 projectile_scene = ExtResource("2_epkny")
 jump_distance = 750.0
 jump_height = 100.0
+portrait_texture = ExtResource("7_u8gcc")
 visuals_container = NodePath("Visuals")
 sprite = NodePath("Visuals/AnimatedSprite2D")
 shadow = NodePath("Visuals/Sprite2D")

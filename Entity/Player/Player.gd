@@ -76,6 +76,11 @@ func take_damage(amount: int, attacker: Node2D) -> void:
 		return
 	
 	super.take_damage(amount, attacker)
+	
+	if health <= 0 and is_instance_valid(attacker):
+		PlayerData.set_cause_of_death(attacker)
+		print("!!! CAUSA DA MORTE REGISTRADA: ", attacker.name)
+	
 	InGameUi.update_life_bar(health, max_health)
 	is_invulnerable = true
 	flash_on = false
@@ -169,6 +174,31 @@ func add_item(item : Item) -> void:
 	item.activate()
 	
 func die() -> void:
-	for item in items:
-		item.on_die()
-	super.die()
+	# 1. Desabilita o jogador para que ele não possa mais se mover ou ser atingido.
+	set_physics_process(false)
+	set_process(false)
+	# Assumindo que o seu nó de colisão se chama "Collider". Ajuste o nome se for diferente.
+	if $Collider:
+		$Collider.set_deferred("disabled", true)
+
+	# 2. Informa ao LevelManager que a run terminou em derrota.
+	LevelManager.end_run(false)
+
+	# 3. Executa a animação de morte. O 'await' funciona sem o 'async' na sua versão.
+	var lerp_progress : float = 0
+	var og_scale : Vector2 = scale
+	var death_anim_duration = 0.5 # Duração da animação em segundos (ajuste como quiser)
+	while(lerp_progress < 1):
+		scale = lerp(og_scale, Vector2.ZERO, lerp_progress)
+		lerp_progress += get_process_delta_time() / death_anim_duration
+		await get_tree().process_frame
+		
+	# 4. Spawna as partículas de morte (se existirem).
+	if death_particles:
+		var particles: CPUParticles2D = death_particles.instantiate()
+		particles.emitting = true
+		get_tree().root.add_child(particles)
+		particles.global_position = self.global_position
+
+	# 5. Finalmente, APÓS A ANIMAÇÃO, transiciona para a tela de Game Over.
+	get_tree().change_scene_to_file("res://scenes/ui/GameOverScreen.tscn")

@@ -50,7 +50,6 @@ func update_player_position(new_pos: Vector2i):
 	# Marca a nova sala como 'atual' e revela as vizinhas
 	if spawned_icons.has(current_player_pos):
 		spawned_icons[current_player_pos].set_state(MinimapIcon.State.CURRENT)
-		_reveal_neighbors(current_player_pos)
 
 func _reveal_neighbors(pos: Vector2i):
 	var directions = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
