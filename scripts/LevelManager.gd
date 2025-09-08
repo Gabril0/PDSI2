@@ -1,5 +1,7 @@
 extends Node
 
+signal level_generated(grid_data: Dictionary)
+
 ## --- PARÂMETROS CONFIGURÁVEIS  ---
 @export var level_number: int = 1
 @export var min_rooms: int = 8
@@ -61,6 +63,8 @@ func generate_level(container: Node2D, player_ref: CharacterBody2D):
 	# 10. Gera o mapa (a ser implementado na UI)
 	print("Level gerado com %d salas." % grid.size())
 	update_minimap()
+	
+	level_generated.emit(grid)
 
 func _generate_grid_layout(target_count: int):
 	var directions = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]

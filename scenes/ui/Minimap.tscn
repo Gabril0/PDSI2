@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://kjl7qgiya47v"]
+
+[ext_resource type="Script" uid="uid://cl1lrexjo7es2" path="res://scripts/minimap.gd" id="1_s30ul"]
+
+[node name="Minimap" type="PanelContainer"]
+script = ExtResource("1_s30ul")
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 2

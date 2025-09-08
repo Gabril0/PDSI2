@@ -1,6 +1,12 @@
 class_name Player
 extends Entity
+
 @onready var animation_handler : PlayerAnimationHandler = $Visuals
+
+signal room_changed(grid_pos: Vector2i)
+const ROOM_SIZE = Vector2(800, 600)  #Isso muda
+var current_grid_pos: Vector2i = Vector2i.ZERO
+
 var itemPassiveDecorator
 
 func _init() -> void:
@@ -9,6 +15,12 @@ func _init() -> void:
 	attackDirection = Vector2.ZERO
 
 func _process(delta: float) -> void:
+	var new_pos = Vector2i(global_position / ROOM_SIZE)
+	
+	if new_pos != current_grid_pos:
+		current_grid_pos = new_pos
+		room_changed.emit(current_grid_pos)
+	
 	movement_input_check()
 	attack_input_check()
 	animation_handler.update_animation(direction, attackDirection)
