@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=4 uid="uid://wcfvr3wd5oos"]
+[gd_scene load_steps=7 format=4 uid="uid://wcfvr3wd5oos"]
 
 [ext_resource type="Script" uid="uid://cy23a631tcr4j" path="res://scripts/RoomInfo.gd" id="1_yh76n"]
 [ext_resource type="Texture2D" uid="uid://gxg5sbtec73j" path="res://assets/tboi/rooms.png" id="2_t5kfd"]
+[ext_resource type="PackedScene" uid="uid://cnnl8e0e5chcs" path="res://Entity/Player/Player.tscn" id="3_44wx6"]
 [ext_resource type="PackedScene" uid="uid://dg61rv4ij8lao" path="res://scenes/bosses/StationaryBoss.tscn" id="3_t5kfd"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rt84j"]
@@ -197,6 +198,8 @@ tile_map_data = PackedByteArray("AAD3/wUAAQAQAAAAADAIAAUAAQAQAAAAAFAIAPr/AQAQAAA
 tile_set = SubResource("TileSet_3wtvp")
 
 [node name="ConnectionPoints" type="Node2D" parent="."]
+
+[node name="Player" parent="ConnectionPoints" instance=ExtResource("3_44wx6")]
 
 [node name="DoorPlaceholder_Up" type="Marker2D" parent="ConnectionPoints"]
 position = Vector2(0, -704)

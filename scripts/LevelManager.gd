@@ -129,7 +129,7 @@ func generate_level(container: Node2D, player_ref: CharacterBody2D):
 	if API.current_week_seed != 0:
 		var level_seed = API.current_week_seed + (level_number + 1)
 		seed(level_seed)
-		print("Usando a SEED da semana vinda da API: ", API.current_week_seed)
+		print("Usando a SEED da semana vinda da API: ", API.current_sweek_seed)
 	else:
 		seed(Time.get_unix_time_from_system())
 		print("AVISO: Seed da semana não encontrada na API. Usando seed aleatória local.")

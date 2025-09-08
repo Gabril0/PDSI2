@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=4 uid="uid://c51t8621xkip6"]
+[gd_scene load_steps=7 format=4 uid="uid://c51t8621xkip6"]
 
 [ext_resource type="Script" uid="uid://cy23a631tcr4j" path="res://scripts/RoomInfo.gd" id="1_e8wqc"]
 [ext_resource type="Texture2D" uid="uid://gxg5sbtec73j" path="res://assets/tboi/rooms.png" id="2_wic51"]
 [ext_resource type="PackedScene" uid="uid://dxtlvekn1v37u" path="res://scenes/bosses/DvdBoss.tscn" id="3_6b1va"]
+[ext_resource type="PackedScene" uid="uid://cnnl8e0e5chcs" path="res://Entity/Player/Player.tscn" id="3_02771"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rt84j"]
 texture = ExtResource("2_wic51")
@@ -208,6 +209,8 @@ rotation = -4.71239
 scale = Vector2(8, 8)
 
 [node name="EnemySpawns" type="Node2D" parent="."]
+
+[node name="Player" parent="EnemySpawns" instance=ExtResource("3_02771")]
 
 [node name="DvdBoss" parent="EnemySpawns" instance=ExtResource("3_6b1va")]
 scale = Vector2(4, 4)

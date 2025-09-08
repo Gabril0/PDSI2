@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=4 uid="uid://b2fsqgl6dsp88"]
+[gd_scene load_steps=10 format=4 uid="uid://b2fsqgl6dsp88"]
 
 [ext_resource type="Script" uid="uid://cy23a631tcr4j" path="res://scripts/RoomInfo.gd" id="1_aaexc"]
 [ext_resource type="Texture2D" uid="uid://gxg5sbtec73j" path="res://assets/tboi/rooms.png" id="2_mqgi8"]
 [ext_resource type="PackedScene" uid="uid://b1ukcx7ylknnq" path="res://scenes/bosses/SatanBoss.tscn" id="3_j0coq"]
+[ext_resource type="PackedScene" uid="uid://cnnl8e0e5chcs" path="res://Entity/Player/Player.tscn" id="3_ro1at"]
 [ext_resource type="PackedScene" uid="uid://kgv0lt7xd4s0" path="res://Projectiles/ProjectileBoss.tscn" id="4_ro1at"]
 [ext_resource type="PackedScene" uid="uid://cfvkpiynkvnc5" path="res://Entity/Particles/BloodParticles.tscn" id="5_gjhwc"]
 [ext_resource type="PackedScene" uid="uid://t6o6kldtptl4" path="res://Entity/Particles/DeathParticles.tscn" id="6_qx01q"]
@@ -219,6 +220,8 @@ scale = Vector2(8, 8)
 position = Vector2(1088, 0)
 rotation = -4.71239
 scale = Vector2(8, 8)
+
+[node name="Player" parent="ConnectionPoints" instance=ExtResource("3_ro1at")]
 
 [node name="EnemySpawns" type="Node2D" parent="."]
 
