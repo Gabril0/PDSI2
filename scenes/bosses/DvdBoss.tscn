@@ -264,6 +264,7 @@ speed = 500.0
 projectile_speed = 500.0
 hit_particles = ExtResource("3_5g426")
 death_particles = ExtResource("4_yh4sj")
+coin_reward = 40
 knockback_strength = 1e+06
 knockback_friction = 400.0
 

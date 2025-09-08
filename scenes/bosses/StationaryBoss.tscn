@@ -259,6 +259,7 @@ visuals = NodePath("AnimatedSprite2D")
 health = 500
 hit_particles = ExtResource("2_rjuji")
 death_particles = ExtResource("3_8deo3")
+coin_reward = 40
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false

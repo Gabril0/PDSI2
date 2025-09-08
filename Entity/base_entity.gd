@@ -17,6 +17,9 @@ var max_health : int
 @export var hit_particles : PackedScene
 @export var death_particles : PackedScene
 
+@export var coin_reward: int = 0 # Recompensa em moedas ao derrotar
+
+
 # Knockback properties
 var knockback_vector: Vector2 = Vector2.ZERO
 @export var knockback_strength: float = 50000.0
@@ -128,6 +131,9 @@ func heal(heal_value : int) -> void:
 	health = clamp(health + heal_value, 0, max_health)
 
 func die() -> void:
+	if coin_reward > 0:
+		PlayerData.add_money(coin_reward)
+	
 	var lerp_progress : float = 0
 	var og_scale : Vector2 = scale
 	while(lerp_progress < 1):
