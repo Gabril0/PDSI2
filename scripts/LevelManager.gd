@@ -2,11 +2,6 @@ extends Node
 
 signal level_generated(grid_data: Dictionary)
 
-## --- PARÂMETROS CONFIGURÁVEIS  ---
-@export var level_number: int = 1
-@export var min_rooms: int = 8
-@export var max_rooms: int = 12
-
 # Definindo o tamanho de cada célula da "matriz". Deve ser grande o suficiente
 # para que nenhuma sala se encoste na outra. Ex: tamanho da maior sala + margem.
 const ROOM_SIZE = Vector2(3500, 2500)
